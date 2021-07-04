@@ -2,10 +2,10 @@
  A sample project for developing games for the TinyJoypad using a more connective and resourceful Arduino UNO or Mega 2560 (and many more micro controllers)
  
 
-## What is Tiny Joypad?
-Tiny Joypad is a great project by Daniel C which defined a standard ATtiny85 gaming platform.
+## What is TinyJoypad?
+TinyJoypad is a great project by Daniel C which defined a standard ATtiny85 gaming platform.
 On https://www.tinyjoypad.com/ you will find the schematics, a lot of cool games.
-The wiring is quite easy and can be done on a breadboard or single sided prototype board.
+The wiring is quite simple and can be done on a breadboard or single sided prototype board.
 (If you want a more professional appearance, you can even order professional PCBs at a commercial
 PCB service.)
 
@@ -26,10 +26,11 @@ Even sound output is possible (at least on Arduino UNO and Mega 2560, for other 
 
 ## Advantages of using a more resourceful micro controller
 * Serial debugging (by 'Serial.print()') is possible
+* on newer micro controllers and with Arduino IDE 2.0 even live debugging using breakpoints should be possible!
 * faster turn-around-cycles because no cables need to be unplugged/plugged and no fiddling with modules or even chips
 * additional features as dumping a screenshot to the serial interface as a hexdump
 * more memory to just getting things working before optimizing for flash and RAM size
-* it would be even possible to use the Tiny Joypad as a gamepad for the Arduino ;) 
+* it would be even possible to use the TinyJoypad as a gamepad for the Arduino ;) 
 
 
 ## Wiring for Arduino UNO and Mega 2560 with 5V tolerant OLED display
@@ -49,7 +50,7 @@ My first intuition was to simply use a level shifter. That works great for the d
 It's probably the easiest solution to use a level shifter where possible and voltage dividers for the two analog inputs.
 
 
-## But how do I get the software running on Tiny Joypad and other micro controllers?
+## But how do I get the software running on TinyJoypad and other micro controllers?
 I encapsulated all hardware related code into special functions, so that in your application code there is no need 
 for any special treatment on which controller the program is running!
 The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
@@ -57,7 +58,11 @@ If your flash memory gets really low at the end of your project, you are free to
 
 Have a look at this sample project:
 
-It will display an image and play a short sound, on Tiny Joypad and on Arduino UNO/Mega 2560 (and probably many other controllers).
+It will display an image and play a short sound, on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
+
+The only differences you should notice could be:
+* the drawing of the image: Because the TinyJoypad has not enough RAM to render the output image in memory it is rendered while it is displayed. Depending on the speed of the calculations this can be visible. The Adafruit library uses a RAM buffer for storing the rendered image which will be transfered in one piece, looking snappier.
+* the brightness of the OLED and the loudness of the beeper might be higher when using a 5V micro controller (due to the increased voltage)
 
 
 
