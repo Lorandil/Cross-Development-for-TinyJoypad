@@ -41,7 +41,7 @@ I used the following connections:
 
 <insert fritzing! image here...>
 
-![Picture](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-wiring- to-Arduino.png)
+![Picture](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-wiring-to-Arduino.png)
 
 
 ## Wiring for other micro controllers and non 5V tolerant displays
