@@ -3,7 +3,7 @@
  
 
 ## What is TinyJoypad?
-TinyJoypad is a great project by Daniel C which defines a standard ATtiny85 gaming platform.
+TinyJoypad is a great project under GPL v3 by Daniel C which defines a standard ATtiny85 gaming platform.
 On https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
 The wiring is simple and can be done on a breadboard or single sided prototype board.
 (If you want a more professional appearance, you can even order professional PCBs at a commercial
