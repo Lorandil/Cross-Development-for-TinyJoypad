@@ -3,23 +3,24 @@
  
 
 ## What is TinyJoypad?
-TinyJoypad is a great project by Daniel C which defined a standard ATtiny85 gaming platform.
-On https://www.tinyjoypad.com/ you will find the schematics, a lot of cool games.
-The wiring is quite simple and can be done on a breadboard or single sided prototype board.
+TinyJoypad is a great project by Daniel C which defines a standard ATtiny85 gaming platform.
+On https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
+The wiring is simple and can be done on a breadboard or single sided prototype board.
 (If you want a more professional appearance, you can even order professional PCBs at a commercial
 PCB service.)
 
 
 ## The Idea
 When I was developing for the TinyJoypad most code didn't work as it was expected on the first try.
-That's normal for development - and even more when developing on a micro controller without any debugging support.
+That's normal for development - and even more when developing on a micro controller with limited resources and without any debugging support.
 Even if there would have been a possibility to use software serial, there is no free pin on the TinyJoypad!
 So I spent a lot of time thinking about possible causes, that's good brain training - but mostly frustrating (especially when the problem was something like wrong parameter order). Thus I thought it would be great to test the code on a more powerful "machine".
 
-At first I wanted to test the code on the PC, but the Arduino code is not pure C++ and it would have been difficult to check the creation of the video output.
+At first I wanted to test the code on the PC, but the Arduino code is not pure C++ and it would have been difficult to check the rendered video output.
 
-So I thought that maybe I could get the <ssd1306xled> to work on an Arduino. A closer look into the code showed me, that this was above my abilities (because of the direct programming of the ATtiny registers).
+I thought that maybe I could get the <ssd1306xled> to work on an Arduino. A closer look into the code showed me, that this was above my abilities (because of the direct programming of the ATtiny registers for the I2C communication).
 After some reflection I decided to try using the <Adafruit_SSD1306> library, which is available for many micro controllers (including Arduino UNO and Mega 2560).
+And it worked - the Adafruit library supports direct access to the video buffer. Instead of writing a rendered byte directly to the display (as it is done on the ATtiny), the rendered data is stored in the video buffer and displayed when the buffer is complete.
 
 Even sound output is possible (at least on Arduino UNO and Mega 2560, for other micro controllers a different port might be required).
 
@@ -50,7 +51,7 @@ My first intuition was to simply use a level shifter. That works great for the d
 It's probably the easiest solution to use a level shifter where possible and voltage dividers for the two analog inputs.
 
 
-## But how do I get the software running on TinyJoypad and other micro controllers?
+## How do I get the software running on TinyJoypad and other micro controllers?
 I encapsulated all hardware related code into special functions, so that in your application code there is no need 
 for any special treatment on which controller the program is running!
 The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
