@@ -1,5 +1,14 @@
 # Cross Development for TinyJoypad
  A sample project for developing games for the TinyJoypad using a more connective and resourceful Arduino UNO or Mega 2560 (and many more micro controllers)
+ 
+
+## What is Tiny Joypad?
+Tiny Joypad is a great project by Daniel C which defined a standard ATtiny85 gaming platform.
+On https://www.tinyjoypad.com/ you will find the schematics, a lot of cool games.
+The wiring is quite easy and can be done on a breadboard or single sided prototype board.
+(If you want a more professional appearance, you can even order professional PCBs at a commercial
+PCB service.)
+
 
 ## The Idea
 When I was developing for the TinyJoypad most code didn't work as it was expected on the first try.
@@ -14,26 +23,41 @@ After some reflection I decided to try using the <Adafruit_SSD1306> library, whi
 
 Even sound output is possible (at least on Arduino UNO and Mega 2560, for other micro controllers a different port might be required).
 
+
+## Advantages of using a more resourceful micro controller
+* Serial debugging (by 'Serial.print()') is possible
+* faster turn-around-cycles because no cables need to be unplugged/plugged and no fiddling with modules or even chips
+* additional features as dumping a screenshot to the serial interface as a hexdump
+* more memory to just getting things working before optimizing for flash and RAM size
+* it would be even possible to use the Tiny Joypad as a gamepad for the Arduino ;) 
+
+
 ## Wiring for Arduino UNO and Mega 2560 with 5V tolerant OLED display
 If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port to the Arduino.
 
-!PLEASE REMEMBER TO REMOVE THE BATTERIE AND THE ATTINY85 FROM THE TINYJOYPAD BEFORE CONNECTING!
+PLEASE REMEMBER TO REMOVE THE BATTERIE AND THE ATTINY85 FROM THE TINYJOYPAD BEFORE CONNECTING !!!
 
 I used the following connections:
 
-TinyJoypad J1        Function                   Arduino UNO           Mega 2560
-Pin 1 (leftmost)	 left/right button          A0				      A0
-Pin 2                up/down button             A3                    A3
-Pin 3                buzzer                     D12                   D10
-Pin 4                GND                        GND                   GND
-Pin 5                SDA (i2c)                  SDA                   SDA
-Pin 6                fire button                A1                    A1
-Pin 7                SCL (i2c)                  SCL/SCK               SCL/SCK
-Pin 8                VCC                        VCC                   VCC
+<insert fritzing! image here...>
+
+![Picture](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-wiring- to-Arduino.png)
+
 
 ## Wiring for other micro controllers and non 5V tolerant displays
-My first intuition was to simply use a level shifter. That works for the display, the beeper and the fire button, but sadly *NOT for the direction buttons because these are analog inputs*.
+My first intuition was to simply use a level shifter. That works great for the display, the beeper and the fire button, but sadly *NOT for the direction buttons because these are analog inputs*.
 It's probably the easiest solution to use a level shifter where possible and voltage dividers for the two analog inputs.
+
+
+## But how do I get the software running on Tiny Joypad and other micro controllers?
+I encapsulated all hardware related code into special functions, so that in your application code there is no need 
+for any special treatment on which controller the program is running!
+The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
+If your flash memory gets really low at the end of your project, you are free to try inlining the code by yourself.
+
+Have a look at this sample project:
+
+It will display an image and play a short sound, on Tiny Joypad and on Arduino UNO/Mega 2560 (and probably many other controllers).
 
 
 
