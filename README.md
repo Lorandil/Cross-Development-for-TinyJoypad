@@ -29,6 +29,7 @@ Even sound output is possible (at least on Arduino UNO and Mega 2560, for other 
 * Serial debugging (by 'Serial.print()') is possible
 * on newer micro controllers and with Arduino IDE 2.0 even live debugging using breakpoints should be possible!
 * faster turn-around-cycles because no cables need to be unplugged/plugged and no fiddling with modules or even chips
+is necessary
 * additional features as dumping a screenshot to the serial interface as a hexdump
 * more memory to just getting things working before optimizing for flash and RAM size
 * it would be even possible to use the TinyJoypad as a gamepad for the Arduino ;) 
@@ -43,7 +44,16 @@ I used the following connections:
 
 <insert fritzing! image here...>
 
-![Picture](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-wiring-to-Arduino.png)
+| TinyJoypad J1    | Function      | UNO R3        | MEGA2560      | Leonardo      |
+| ---------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| Pin 1 (leftmost) | left/right    | A0            | A0            | A0            |
+| Pin 2            | up/down       | A3            | A3            | A3            |
+| Pin 3            | buzzer        | D12           | D10           | D8            |
+| Pin 4            | GND           | GND           | GND           | GND           |
+| Pin 5            | SDA (i2c)     | SDA           | SDA           | SDA           |
+| Pin 6            | fire          | A1            | A1            | A1            |
+| Pin 7            | SCL (i2c)     | SCL           | SCL           | SCL           |
+| Pin 8            | VCC           | VCC           | VCC           | VCC           |
 
 
 ## Wiring for other micro controllers and non 5V tolerant displays
@@ -61,9 +71,14 @@ Have a look at this sample project:
 
 It will display an image and play a short sound, on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
 
-The only differences you should notice could be:
+## Are there really no differences?
+If the micro controllers are of comparable types like ATMEGA328 (Arduino Uno) or MEGA2560 (Arduino Mega 2560) or AVR32U4 (Arduino Leonardo), the only differences you might notice will be:
+
 * the drawing of the image: Because the TinyJoypad has not enough RAM to render the output image in memory it is rendered while it is displayed. Depending on the speed of the calculations this can be visible. The Adafruit library uses a RAM buffer for storing the rendered image which will be transfered in one piece, looking snappier.
+
 * the brightness of the OLED and the loudness of the beeper might be higher when using a 5V micro controller (due to the increased voltage)
+
+If your controller is much higher clocked, you might see increased speed to the point, that your project won't work well on ATtiny85 and  your other controller. You might counter that with some #ifdef's, but better it's easier to stay with the above mentioned AVR chips.
 
 
 
