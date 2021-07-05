@@ -22,7 +22,7 @@ I thought that maybe I could get the <ssd1306xled> to work on an Arduino. A clos
 After some reflection I decided to try using the <Adafruit_SSD1306> library, which is available for many micro controllers (including Arduino UNO and Mega 2560).
 And it worked - the Adafruit library supports direct access to the video buffer. Instead of writing a rendered byte directly to the display (as it is done on the ATtiny), the rendered data is stored in the video buffer and displayed when the buffer is complete.
 
-Even sound output is possible (at least on Arduino UNO and Mega 2560, for other micro controllers a different port might be required).
+Even sound output is possible (at least on Arduino UNO, Mega 2560 and Leonardo, for other micro controllers a different port might be required).
 
 
 ## Advantages of using a more resourceful micro controller
@@ -31,14 +31,14 @@ Even sound output is possible (at least on Arduino UNO and Mega 2560, for other 
 * faster turn-around-cycles because no cables need to be unplugged/plugged and no fiddling with modules or even chips
 is necessary
 * additional features as dumping a screenshot to the serial interface as a hexdump
-* more memory to just getting things working before optimizing for flash and RAM size
+* more memory to get things working - before optimizing for flash and RAM size
 * it would be even possible to use the TinyJoypad as a gamepad for the Arduino ;) 
 
 
 ## Wiring for Arduino UNO and Mega 2560 with 5V tolerant OLED display
 If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port to the Arduino.
 
-**PLEASE REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!**
+### PLEASE REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
 
  
 | TinyJoypad J1    | Function      | UNO R3        | MEGA2560      | Leonardo      |
@@ -52,7 +52,7 @@ If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoyp
 | Pin 7            | SCL (i2c)     | SCL           | SCL           | SCL           |
 | Pin 8 (rightmost)| VCC           | VCC           | VCC           | VCC           |
  
-Please note that the connection of pin 3 differs between the controllers!
+Please note that the connection of pin 3 differs between the controllers due to the location of PB4!
 
 
 ## Wiring for other micro controllers and non 5V tolerant displays
@@ -60,7 +60,7 @@ My first intuition was to simply use a level shifter. That works great for the d
 It's probably the easiest solution to use a level shifter where possible and voltage dividers for the two analog inputs.
 
 
-## How do I get the software running on TinyJoypad and other micro controllers?
+## How do I get the same software running on TinyJoypad and other micro controllers?
 I encapsulated all hardware related code into special functions, so that in your application code there is no need 
 for any special treatment on which controller the program is running!
 The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
