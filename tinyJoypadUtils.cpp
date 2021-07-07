@@ -11,13 +11,16 @@
 #include "tinyJoypadUtils.h"
 
 #if !defined(__AVR_ATtiny85__)
-  // include serial output functions
-  #include "SerialHexTools.h"
-
   // include Adafruit library and immediately create an object
   #include <Adafruit_SSD1306.h>
   Adafruit_SSD1306 display( 128, 64, &Wire, -1 );
   uint8_t *adafruitBuffer;
+
+  // these functions are only required if a screenshot should be printed as a hexdump to the serial port
+  #ifdef _ENABLE_SERIAL_SCREENSHOT_
+    // include serial output functions
+    #include "SerialHexTools.h"
+  #endif
 #endif
 
 
@@ -190,6 +193,7 @@ void TinyFlip_DisplayBuffer()
 #endif
 }
 
+#ifdef _ENABLE_SERIAL_SCREENSHOT_
 /*-------------------------------------------------------*/
 // Outputs the screen as one hex byte per pixel. To get an actual image perform the following steps:
 // (1) The output can be converted to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en' online.
@@ -205,3 +209,4 @@ void TinyFlip_SerialScreenshot()
   printScreenBufferToSerial( display.getBuffer(), 128, 8 );
 #endif
 }
+#endif

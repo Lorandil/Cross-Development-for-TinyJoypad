@@ -45,7 +45,7 @@ If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoyp
 | ---------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Pin 1 (leftmost) | left/right    | A0            | A0            | A0            |
 | Pin 2            | up/down       | A3            | A3            | A3            |
-| **Pin 3**        | **buzzer**    | `D12`         | `D10`         | `D8`          |
+| Pin 3            | buzzer        | `D12`         | `D10`         | `D8`          |
 | Pin 4            | GND           | GND           | GND           | GND           |
 | Pin 5            | SDA (i2c)     | SDA           | SDA           | SDA           |
 | Pin 6            | fire          | A1            | A1            | A1            |

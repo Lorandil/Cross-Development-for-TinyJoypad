@@ -35,6 +35,12 @@
 
 #include <Arduino.h>
 #include "tinyJoypadUtils.h"
+#include "sampleBitmap.h"
+
+const uint16_t SCREEN_COLS = 128;
+const uint16_t SCREEN_ROWS = 8;
+uint8_t posX = ( IMAGE_COLS - SCREEN_COLS ) / 2;
+uint8_t posY = 4;
 
 /*--------------------------------------------------------*/
 void setup()
@@ -48,6 +54,14 @@ void setup()
 /*--------------------------------------------------------*/
 void loop()
 {
+  // check buttons
+  if ( isLeftPressed() && ( posX >= 8 ) ) { posX -= 8; }
+  if ( isRightPressed() && ( posX < IMAGE_COLS - SCREEN_COLS - 8 ) ) { posX += 8; }
+  if ( isUpPressed() && ( posY > 0 ) ) { posY -= 1; }
+  if ( isDownPressed() && ( posY < IMAGE_ROWS - SCREEN_ROWS - 1 ) ) { posY += 1; }
+
+  // display image
+  Tiny_Flip();  
 }
 
 /*--------------------------------------------------------*/
@@ -61,7 +75,7 @@ void Tiny_Flip()
     // display all 128 pixels
     for ( uint8_t x = 0; x < 128; x++ )
     {
-      uint8_t pixels = 0;
+      uint8_t pixels = pgm_read_byte( RubjergKnudeFyr + posX + x + ( y + posY ) * IMAGE_COLS );
       TinyFlip_SendPixels( pixels );
     } // for x
     
