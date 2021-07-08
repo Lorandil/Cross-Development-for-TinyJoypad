@@ -68,12 +68,13 @@ If your flash memory gets really low at the end of your project, you are free to
 
 ## Sample Project
 The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels and can be scrolled with the joystick. For every movement a short blip sound is played.
- ![Rubjerg Knude Fyr](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/RubjergKnudeFyr.png)
+ 
+![Rubjerg Knude Fyr](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/RubjergKnudeFyr.png)
 
 The code works on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
 
-#### Here is a minimum version of the code:
-For the full code with the bitmap please clone the repository!
+#### Here is a minimum version of the code without the bitmap and joystick stuff:
+For the full code please check out the code in the repository!
 
 ```javascript
 #include "tinyJoypadUtils.h"
