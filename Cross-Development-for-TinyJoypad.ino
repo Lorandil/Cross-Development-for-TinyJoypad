@@ -78,18 +78,21 @@ void loop()
 /*--------------------------------------------------------*/
 void Tiny_Flip()
 {
-  // there are 8 rows of 8 pixels each
+  // there are 8 rows with a height of 8 pixels
   for ( uint8_t y = 0; y < 8; y++)
   {
+    // prepare display of row <y>
     TinyFlip_PrepareDisplayRow( y );
 
-    // display all 128 pixels
+    // there are 128 columns of 8 vertical aligned pixels
     for ( uint8_t x = 0; x < 128; x++ )
     {
       uint8_t pixels = pgm_read_byte( RubjergKnudeFyr + posX + x + ( y + posY ) * IMAGE_COLS );
+      // send 8 vertical pixels
       TinyFlip_SendPixels( pixels );
     } // for x
     
+    // this row is finished
     TinyFlip_FinishDisplayRow();
   } // for y
 
