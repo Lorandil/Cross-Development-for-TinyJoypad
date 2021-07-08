@@ -4,7 +4,7 @@
 //              Contact EMAIL: 
 
 // This is a sample program to demonstrate cross development for the Tiny Joypad platform using
-// another micro controller (e.g. Arduino UNO or Arduino Mega 2560).
+// another micro controller (e.g. Arduino UNO, Arduino Mega 2560 or Arduino Leonardo).
 // It is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -20,6 +20,7 @@
 
 // The code works at 16MHZ internal
 // and uses ssd1306xled Library for SSD1306 oled display 128x64.
+// It works also with SSD1309 and with a modification also with SH1106.
 //
 // To stuff all code and data into the 8192 bytes of the ATtiny85
 // the ATTinyCore (v1.5.2) by Spence Konde is recommended.
@@ -40,7 +41,7 @@
 const uint16_t SCREEN_COLS = 128;
 const uint16_t SCREEN_ROWS = 8;
 uint8_t posX = ( IMAGE_COLS - SCREEN_COLS ) / 2;
-uint8_t posY = 4;
+uint8_t posY = 8;
 
 /*--------------------------------------------------------*/
 void setup()
@@ -54,13 +55,23 @@ void setup()
 /*--------------------------------------------------------*/
 void loop()
 {
-  // check buttons
-  if ( isLeftPressed() && ( posX >= 8 ) ) { posX -= 8; }
-  if ( isRightPressed() && ( posX < IMAGE_COLS - SCREEN_COLS - 8 ) ) { posX += 8; }
-  if ( isUpPressed() && ( posY > 0 ) ) { posY -= 1; }
-  if ( isDownPressed() && ( posY < IMAGE_ROWS - SCREEN_ROWS - 1 ) ) { posY += 1; }
+  bool userAction = false;
 
-  // display image
+  // check buttons
+  if ( isLeftPressed() && ( posX >= 8 ) ) { posX -= 8; userAction = true; }
+  if ( isRightPressed() && ( posX < IMAGE_COLS - SCREEN_COLS - 8 ) ) { posX += 8; userAction = true; }
+  if ( isUpPressed() && ( posY > 0 ) ) { posY -= 1; userAction = true; }
+  if ( isDownPressed() && ( posY < IMAGE_ROWS - SCREEN_ROWS - 1 ) ) { posY += 1; userAction = true; }
+  if ( isFirePressed() ) { posX = ( IMAGE_COLS - SCREEN_COLS ) / 2; posY = 8; userAction = true; }
+
+  // user action?
+  if ( userAction )
+  {
+    // play a sound
+    blip();
+  }
+
+  // render the image
   Tiny_Flip();  
 }
 
@@ -92,4 +103,11 @@ void Tiny_Flip()
       TinyFlip_SerialScreenshot();
     }
   #endif
+}
+
+/*--------------------------------------------------------*/
+void blip()
+{
+  Sound( 60, 20 );
+  Sound( 150, 20 );
 }

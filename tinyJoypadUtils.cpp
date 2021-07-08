@@ -7,6 +7,9 @@
 // for debugging with serial output or even hardware breakpoints.
 //
 
+// enable the following line to activate SH1106 support 
+//#define _USE_SH1106_
+
 #include <Arduino.h>
 #include "tinyJoypadUtils.h"
 

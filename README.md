@@ -66,9 +66,57 @@ for any special treatment on which controller the program is running!
 The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
 If your flash memory gets really low at the end of your project, you are free to try inlining the code by yourself.
 
-Have a look at this sample project:
+## Sample Project
+The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels and can be scrolled with the joystick. For every movement a short blip sound is played.
+The code works on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
 
-It will display an image and play a short sound, on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
+#### Here is a compressed version of the code:
+
+```javascript
+#include "tinyJoypadUtils.h"
+
+/*--------------------------------------------------------*/
+void setup()
+{
+  // initialize the pins (and serial port if present)
+  InitTinyJoypad();
+  // perform display initialization
+  InitDisplay();
+}
+
+/*--------------------------------------------------------*/
+void loop()
+{
+  // some joystick stuff
+  ...
+
+  // render the image
+  Tiny_Flip();  
+}
+
+/*--------------------------------------------------------*/
+void Tiny_Flip()
+{
+  // there are 8 rows of 8 pixels each
+  for ( uint8_t y = 0; y < 8; y++)
+  {
+    TinyFlip_PrepareDisplayRow( y );
+
+    // display all 128 pixels
+    for ( uint8_t x = 0; x < 128; x++ )
+    {
+      uint8_t pixels = pgm_read_byte( RubjergKnudeFyr + posX + x + ( y + posY ) * IMAGE_COLS );
+      TinyFlip_SendPixels( pixels );
+    } // for x
+    
+    TinyFlip_FinishDisplayRow();
+  } // for y
+
+  // display the whole screen at once
+  TinyFlip_DisplayBuffer();
+}
+```
+
 
 ## Are there really no differences?
 If the micro controllers are of comparable types like ATMEGA328 (Arduino Uno) or MEGA2560 (Arduino Mega 2560) or AVR32U4 (Arduino Leonardo), the only differences you might notice will be:
