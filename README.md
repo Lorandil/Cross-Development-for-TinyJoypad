@@ -68,6 +68,8 @@ If your flash memory gets really low at the end of your project, you are free to
 
 ## Sample Project
 The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels and can be scrolled with the joystick. For every movement a short blip sound is played.
+ ![Rubjerg Knude Fyr](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/RubjergKnudeFyr.png)
+
 The code works on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
 
 #### Here is a minimum version of the code:
@@ -123,12 +125,12 @@ void Tiny_Flip()
 ## Are there really no differences?
 If the micro controllers are of comparable types like ATMEGA328 (Arduino Uno) or MEGA2560 (Arduino Mega 2560) or AVR32U4 (Arduino Leonardo), the only differences you might notice will be:
 
-* the drawing of the image: Because the TinyJoypad has not enough RAM to render the output image in memory it is rendered while it is displayed. Depending on the speed of the calculations this can be visible. The Adafruit library uses a RAM buffer for storing the rendered image. After rendering is complete, the image will be transfered in one piece, looking snappier.
+* The drawing of the image: Because the TinyJoypad has not enough RAM to render the output image in memory, the image is rendered while it is displayed. Depending on the speed of the calculations, this can be visible. The Adafruit library uses a RAM buffer for storing the rendered image. After rendering is complete, the image will be transfered in one piece, looking snappier.
 
-* the brightness of the OLED and the loudness of the beeper might be higher when using a 5V micro controller (due to the increased voltage)
+* The brightness of the OLED and the loudness of the beeper might be higher when using a 5V micro controller (due to the increased voltage).
 
-If your controller is much higher clocked, you might see increased speed to the point, that your project will begin to behave differently.
-You might counter that effect with some #ifdefs, but better it's easier to stay with the above mentioned AVR chips.
+If your controller is much faster, you might see increased speed to the point, that your project will begin to behave differently.
+You might counter that effect with some `#ifdef` and `_delay_ms()` but it's probably easier to stay with the above mentioned AVR chips.
 
 
 
