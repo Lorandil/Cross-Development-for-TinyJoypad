@@ -70,7 +70,8 @@ If your flash memory gets really low at the end of your project, you are free to
 The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels and can be scrolled with the joystick. For every movement a short blip sound is played.
 The code works on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
 
-#### Here is a compressed version of the code:
+#### Here is a minimum version of the code:
+For the full code with the bitmap please clone the repository!
 
 ```javascript
 #include "tinyJoypadUtils.h"
@@ -87,9 +88,6 @@ void setup()
 /*--------------------------------------------------------*/
 void loop()
 {
-  // some joystick stuff
-  ...
-
   // render the image
   Tiny_Flip();  
 }
@@ -103,20 +101,20 @@ void Tiny_Flip()
     // prepare display of row <y>
     TinyFlip_PrepareDisplayRow( y );
 
-    // display all 128 columns
+    // there are 128 columns of 8 vertical aligned pixels
     for ( uint8_t x = 0; x < 128; x++ )
     {
-	  // get the pixels from somewhere
-      uint8_t pixels = <your code here>;
+      // get the pixels from somewhere
+      uint8_t pixels = ...
       // send 8 vertical pixels to the display
       TinyFlip_SendPixels( pixels );
-    } // for x
+    }
     
-    // this row is finished
+    // this row has been finished
     TinyFlip_FinishDisplayRow();
   }
 
-  // display the whole screen at once
+  // display the whole screen
   TinyFlip_DisplayBuffer();
 }
 ```
