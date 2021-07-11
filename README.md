@@ -3,11 +3,12 @@ This repository contains a small framework for developing games for the TinyJoyp
 
 ## What is TinyJoypad?
 TinyJoypad is a great project by the Canadian developer Daniel C which defines a standardized ATtiny85 gaming platform.
+
 It consists of an ATtiny85, an SSD1306 driven I2C OLED, a joystyck, a button, a buzzer and some resistors.
 The wiring of a TinyJoypad is simple and can be done on a breadboard or single sided prototype board.
 A really cool feature is the module port which allows fast switching between games.
 
-On https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
+On the TinyJoypad homepage https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
 
 
 ## Sample Project
