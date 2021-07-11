@@ -1,5 +1,5 @@
 # Cross Development Framework for TinyJoypad
-This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful micro controller like Arduino UNO, Leonardo, or Mega 2560 (and many more micro controllers).
+This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful micro controller like Arduino UNO, Leonardo, or Mega 2560 (and many other micro controllers).
 
 ## What is TinyJoypad?
 TinyJoypad is a great project by the Canadian developer Daniel C which defines a standardized ATtiny85 gaming platform.
