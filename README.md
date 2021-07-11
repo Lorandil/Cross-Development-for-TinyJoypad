@@ -1,5 +1,5 @@
-# Cross Development for TinyJoypad
-This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful Arduino UNO or Mega 2560 (and many more micro controllers).
+# Cross Development Framework for TinyJoypad
+This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful micro controller like Arduino UNO, Leonardo, or Mega 2560 (and many more micro controllers).
 
 ## What is TinyJoypad?
 TinyJoypad is a great project by the Canadian developer Daniel C which defines a standardized ATtiny85 gaming platform.
@@ -11,7 +11,7 @@ On https://www.tinyjoypad.com/ you will find the schematics and a lot of cool ga
 
 
 ## Sample Project
-The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels and can be scrolled with the joystick. For every movement a short blip sound is played.
+The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels (6kB) and can be scrolled with the joystick. For every movement a short blip sound is played.
  
 The code works on TinyJoypad and on Arduino UNO/Leonardo/Mega 2560 (and probably many other controllers) without changing anything in the code!
 
@@ -35,14 +35,19 @@ Even sound output is possible (at least on Arduino UNO, Leonardo and Mega 2560, 
 
 ## Advantages of using a more resourceful micro controller
 * Serial debugging (by 'Serial.print()') is possible
-* on newer micro controllers and with Arduino IDE 2.0 even live debugging using breakpoints should be possible!
-* faster turn-around-cycles because no cables need to be unplugged/plugged and no fiddling with modules or even chips
+* On newer micro controllers and with Arduino IDE 2.0 even live debugging using breakpoints should be possible
+* Faster turn-around-cycles, because no cables need to be unplugged/plugged and no fiddling with modules or even chips
 is necessary
-* more memory to get things working - before optimizing for flash and RAM size
-* additional cool features as dumping a screenshot to the serial interface as a hexdump
+* More memory to get things working - before optimizing for flash and RAM size (reducing readability)
+* Additional cool features as dumping a screenshot to the serial interface as a hexdump
 
 
-## Wiring for Arduino UNO and Mega 2560 with 5V tolerant OLED display
+## How Does It Work?
+Without an installed ATTiny85, the TinyJoypad is a passive device which offers all signals on the module connector J1.
+That means, that we can use the display, the buzzer, the joystick and the fire buttons from the outside!
+I just had to figure out the correct wiring and voilà!
+ 
+## Wiring for Arduino UNO, Leonardo and Mega 2560 with 5V Tolerant OLED Display
 If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port to the Arduino.
 
 ### PLEASE REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
@@ -62,12 +67,12 @@ If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoyp
 Please note that the connection of pin 3 differs between the controllers due to the location of PB4!
 
 
-## Wiring for other micro controllers and non 5V tolerant displays
+## Wiring for Other Micro Controllers and non 5V Tolerant Displays
 My first intuition was to simply use a level shifter. That works great for the display, the beeper and the fire button, but sadly *NOT for the direction buttons because these are analog inputs*.
 It's probably the easiest solution to use a level shifter where possible and voltage dividers for the two analog inputs.
 
 
-## How do I get the same software running on TinyJoypad and other micro controllers?
+## How Do I Get the Same Software Running on TinyJoypad and Other Micro Controllers?
 I encapsulated all hardware related code into special functions, so that in your application code there is no need 
 for any special treatment on which controller the program is running!
 The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
