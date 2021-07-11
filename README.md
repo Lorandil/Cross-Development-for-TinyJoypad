@@ -1,11 +1,20 @@
 # Cross Development for TinyJoypad
- A sample project for developing games for the TinyJoypad using a more connective and resourceful Arduino UNO or Mega 2560 (and many more micro controllers)
+This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful Arduino UNO or Mega 2560 (and many more micro controllers).
+
+## Sample Project
+The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels and can be scrolled with the joystick. For every movement a short blip sound is played.
+ 
+![Rubjerg Knude Fyr](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/RubjergKnudeFyr.png)
+
+The code works on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
  
 
 ## What is TinyJoypad?
-TinyJoypad is a great project under GPL v3 by Daniel C which defines a standard ATtiny85 gaming platform.
+TinyJoypad is a great project by Daniel C which defines a standard ATtiny85 gaming platform.
+It uses an ATtiny85, an SSD1306 driven I2C OLED, a joystyck, tow buttons, a buzzer and some resistors.
 On https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
-The wiring is simple and can be done on a breadboard or single sided prototype board.
+TinyJoypad is free software under GPL v3.
+The wiring of a TinyJoypad is simple and can be done on a breadboard or single sided prototype board.
 (If you want a more professional appearance, you can even order professional PCBs at a commercial
 PCB service.)
 
@@ -66,19 +75,16 @@ for any special treatment on which controller the program is running!
 The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
 If your flash memory gets really low at the end of your project, you are free to try inlining the code by yourself.
 
-## Sample Project
-The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels and can be scrolled with the joystick. For every movement a short blip sound is played.
- 
-![Rubjerg Knude Fyr](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/RubjergKnudeFyr.png)
+### Here is a simplified version of the code without the bitmap and joystick stuff:
+For the full version please check out the sketch in the repository!
 
-The code works on TinyJoypad and on Arduino UNO/Mega 2560 (and probably many other controllers) without changing anything in the code!
-
-#### Here is a minimum version of the code without the bitmap and joystick stuff:
-For the full code please check out the code in the repository!
-
+## Definitions of the Required Functions
 ```javascript
 #include "tinyJoypadUtils.h"
+```
 
+## Initilization of the TinyJoypad I/O-Pins and the Display
+```javascript
 /*--------------------------------------------------------*/
 void setup()
 {
@@ -87,14 +93,20 @@ void setup()
   // perform display initialization
   InitDisplay();
 }
+```
 
+## Cyclic Image Rendering Call
+```javascript
 /*--------------------------------------------------------*/
 void loop()
 {
   // render the image
   Tiny_Flip();  
 }
+```
 
+## Render and Display the Image
+ ```javascript
 /*--------------------------------------------------------*/
 void Tiny_Flip()
 {
@@ -123,15 +135,15 @@ void Tiny_Flip()
 ```
 
 
-## Are there really no differences?
+## What are the remaining differences?
 If the micro controllers are of comparable types like ATMEGA328 (Arduino Uno) or MEGA2560 (Arduino Mega 2560) or AVR32U4 (Arduino Leonardo), the only differences you might notice will be:
 
 * The drawing of the image: Because the TinyJoypad has not enough RAM to render the output image in memory, the image is rendered while it is displayed. Depending on the speed of the calculations, this can be visible. The Adafruit library uses a RAM buffer for storing the rendered image. After rendering is complete, the image will be transfered in one piece, looking snappier.
 
 * The brightness of the OLED and the loudness of the beeper might be higher when using a 5V micro controller (due to the increased voltage).
 
-If your controller is much faster, you might see increased speed to the point, that your project will begin to behave differently.
-You might counter that effect with some `#ifdef` and `_delay_ms()` but it's probably easier to stay with the above mentioned AVR chips.
+If your controller is much faster, you might see increased speed to the point, that your project (especially the controls) will begin to behave differently.
+You might counter that effect with `#ifdef` and `_delay_ms()`, but it's probably easier to stay with the above mentioned AVR chips.
 
 
 
