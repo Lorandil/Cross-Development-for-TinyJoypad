@@ -1,7 +1,7 @@
 //   >>>>>  Cross Development for TinyJoypad 1.0 GPLv3 <<<<
 //						Tinyjoypad rev2 compatible
 //                   Programmer: Sven B 2021
-//              Contact EMAIL: 
+//              Contact EMAIL: Lorandil@gmx.de 
 
 // This is a sample program to demonstrate cross development for the Tiny Joypad platform using
 // another micro controller (e.g. Arduino UNO, Arduino Mega 2560 or Arduino Leonardo).
