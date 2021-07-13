@@ -58,9 +58,9 @@ Wenn Euer TinyJoypad-Display 5V-tolerant ist, kann der Modulport des TinyJoypads
 | Pin 2            | hoch/runter   | A3            | A3            | A3            |
 | Pin 3            | Lautsprecher  | `D12`         | `D10`         | `D8`          |
 | Pin 4            | GND           | GND           | GND           | GND           |
-| Pin 5            | SDA (i2c)     | SDA           | SDA           | SDA           |
+| Pin 5            | SDA (I2C)     | SDA           | SDA           | SDA           |
 | Pin 6            | Feuer         | A1            | A1            | A1            |
-| Pin 7            | SCL (i2c)     | SCL           | SCL           | SCL           |
+| Pin 7            | SCL (I2C)     | SCL           | SCL           | SCL           |
 | Pin 8 (rechts)   | VCC           | VCC           | VCC           | VCC           |
  
 Bitte beachten, dass Pin 3 des Modulports wegen der Position von Port B4 je nach Mikrocontroller mit einem anderene Ausgang verbunden werden muss!
@@ -72,12 +72,12 @@ leider aber *NICHT* für den Joystick, da dieser auf zwei Analogeingänge geht.
 Es ist vermutlich die einfachste Lösung wo möglich einen Level-Shifter zu nehmen und die Analogsignale über Spannungsteiler anzupassen.
 
 
-## Wie schaffe ich es dieselbe Software auf einem TinyJoypad und einem anderen Mikrocontroller laufen zu lassen?
-Für diesen Zweck habe ich allen Hardware-bezogenen Code in spezielle Funktionen gekapselt.
+## Wie schaffe ich es, dieselbe Software auf einem TinyJoypad und einem anderen Mikrocontroller laufen zu lassen?
+Dafür gibt es dieses Framework! Der gesamte Hardware-bezogenen Code ist in spezielle Funktionen gekapselt.
 In Eurem Anwendungscode müssen daher keine Controller-abhängigen Behandlungen eingebaut werden.
 Der Overhead dieser Funktion ist Null oder nahe Null, da der Compiler leere Funktionen entfernen und den restlichen Code
 direkt einbinden wird.
-Nur falls der Flashspeicher in Eurem Projekt sehr knapp wird, könnte es sich lohnen hier genauer hinzuschauen.
+Nur falls der Flashspeicher in Eurem Projekt sehr knapp wird, könnte es sich vielleicht lohnen hier genauer hinzuschauen.
 
  
 ## Beispielprojekt "Leuchtturm"
@@ -157,5 +157,5 @@ Wenn Euer Mikrocontroller aus einer vergleichbaren Leistungsklasse wie dem  ATME
 Wenn Euer Mikrocontroller viel schneller ist, kann der Geschwindigkeitsunterschied so groß werden, dass Euer Projekt (insbesondere die Steuerung) sich anders verhält.
 Diesem Effekt könntet Ihr mit `#ifdef` und `_delay_ms()` entgegenwirken, aber vermutlich ist es einfacher bei einem der genannten AVR-Chips zu bleiben.
 
-## License
+## Lizenz
 GNU General Public License v3.0

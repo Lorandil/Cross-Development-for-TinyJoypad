@@ -51,9 +51,9 @@ If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoyp
 | Pin 2            | up/down       | A3            | A3            | A3            |
 | Pin 3            | buzzer        | `D12`         | `D10`         | `D8`          |
 | Pin 4            | GND           | GND           | GND           | GND           |
-| Pin 5            | SDA (i2c)     | SDA           | SDA           | SDA           |
+| Pin 5            | SDA (I2C)     | SDA           | SDA           | SDA           |
 | Pin 6            | fire          | A1            | A1            | A1            |
-| Pin 7            | SCL (i2c)     | SCL           | SCL           | SCL           |
+| Pin 7            | SCL (I2c)     | SCL           | SCL           | SCL           |
 | Pin 8 (rightmost)| VCC           | VCC           | VCC           | VCC           |
  
 Please note that the connection of pin 3 differs between the controllers due to the location of PB4!
@@ -65,8 +65,8 @@ It's probably the easiest solution to use a level shifter where possible and vol
 
 
 ## How Do I Get the Same Software Running on TinyJoypad and Other Micro Controllers?
-I encapsulated all hardware related code into special functions, so that in your application code there is no need 
-for any special treatment on which controller the program is running!
+That's what this framework was made for! I encapsulated all hardware related code into special functions, so that in your application
+code there is no need for any special treatment on which controller the program is running!
 The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
 If your flash memory gets really low at the end of your project, you are free to try inlining the code by yourself.
 
