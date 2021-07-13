@@ -1,6 +1,8 @@
 # Cross Development Framework for TinyJoypad
 This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful micro controller like Arduino UNO, Leonardo, or Mega 2560 (and many other micro controllers).
 
+![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-LeonardoJoypad-800x600.jpg)
+ 
 ## What is TinyJoypad?
 TinyJoypad is a great project by the Canadian developer Daniel C which defines a standardized ATtiny85 gaming platform.
 
@@ -10,14 +12,6 @@ A really cool feature is the module port which allows fast switching between gam
 
 On the TinyJoypad homepage https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
 
-
-## Sample Project
-The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels (6kB) and can be scrolled with the joystick. For every movement a short blip sound is played.
- 
-The code works on TinyJoypad and on Arduino UNO/Leonardo/Mega 2560 (and probably many other controllers) without changing anything in the code!
-
-![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-LeonardoJoypad-800x600.jpg)
- 
 
 ## Why Should I Want to use Cross Development?
 When I was developing for the TinyJoypad, most code didn't work as it was expected on the first try.
@@ -80,6 +74,12 @@ The overhead of these functions is zero or nearly zero because the compiler will
 If your flash memory gets really low at the end of your project, you are free to try inlining the code by yourself.
 
  
+## Sample Project
+The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels (6kB) and can be scrolled with the joystick. For every movement a short blip sound is played.
+ 
+The code works on TinyJoypad and on Arduino UNO/Leonardo/Mega 2560 (and probably many other controllers) without changing a single line of code!
+
+
 ### Here is a simplified version of the code without the bitmap and joystick stuff:
 For the full version please check out the sketch in the repository!
 
@@ -88,7 +88,7 @@ For the full version please check out the sketch in the repository!
 #include "tinyJoypadUtils.h"
 ```
 
-## Initilization of the TinyJoypad I/O-Pins and the Display
+## Initialization of the TinyJoypad I/O-Pins and the Display
 ```javascript
 /*--------------------------------------------------------*/
 void setup()
