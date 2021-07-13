@@ -1,5 +1,5 @@
 # Cross Development Framework for TinyJoypad
-![Deutsche Version](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/LIESMICH.md)
+![<Deutsche Version>](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/LIESMICH.md)
 
 This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful micro controller like Arduino UNO, Leonardo, or Mega 2560 (and many other micro controllers).
 
