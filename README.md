@@ -18,8 +18,8 @@ So I spent a lot of time thinking about possible causes for my bugs, that's good
 
 At first I wanted to test the code on the PC, but the Arduino code is not pure C++ and it would have been difficult to check the rendered video output.
 
-I thought that maybe I could get the <ssd1306xled> to work on an Arduino. A closer look into the code showed me, that this was above my abilities (because of the direct programming of the ATtiny registers for the I2C communication).
-After some reflection I decided to try using the <Adafruit_SSD1306> library, which is available for many micro controllers (including several Arduinos).
+I thought that maybe I could get the `<ssd1306xled>` library to work on an Arduino. A closer look into the code showed me, that this was above my abilities (because of the direct programming of the ATtiny registers for the I2C communication).
+After some reflection I decided to try using the `<Adafruit_SSD1306>` library, which is available for many micro controllers (including several Arduinos).
 And it worked - the Adafruit library supports direct access to the video buffer. Instead of writing a rendered byte directly to the display (as it is done on the ATtiny), the rendered data is stored in the video buffer and displayed when the buffer is complete.
 
 Even sound output is possible (at least on Arduino UNO, Leonardo and Mega 2560, for other micro controllers a different port might be required).

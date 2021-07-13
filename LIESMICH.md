@@ -22,9 +22,9 @@ dämlichen Fehler wie eine falsche Anordnung der Parameter verursacht wird...).
 
 Am Anfang wollte ich den Code auf dem PC testen, aber zum einen ist Arduino-Code kein reiner C++-Code und zum Anderen wäre eine Prüfung der Videoausgabe aufwändig gewesen.
 
-Meine nächste Idee war, ob ich vielleicht den <ssd1306xled> auf einem Arduino zum Laufen bringen könnten.
+Meine nächste Idee war, ob ich vielleicht den Code der `<ssd1306xled>`-Bibliothek auf einem Arduino zum Laufen bringen könnten.
 Bei genauerer Betrachtung habe ich aber einsehen müssen, dass dies meine Fähigkeiten übersteigt (Programmierung der für I2C benutzten USI-Register auf dem ATtiny85).
-Nach einigem Überlegen entschied ich mich die  <Adafruit_SSD1306>-Bibliothek (welche für nahezu alle Mikrocontroller verfügbar ist) zu verwenden.
+Nach einigem Überlegen entschied ich mich die `<Adafruit_SSD1306>`-Bibliothek (welche für nahezu alle Mikrocontroller verfügbar ist) zu verwenden.
 Und es funktioniert: Die Adafruit-Bibliothek erlaubt einen direkten Zugriff auf ihren internen Bildspeicher.
 Anstatt die berechneten Pixel direkt über I2C an das Display zu senden (wie beim ATtiny85 notwendig), werden die Pixel in den Bildspeicher der Bibliothek übertragen 
 und nach dem "Bildaufbau" in einem Transfer an das Display gesendet. Dieses Display müsste theoretisch nicht einmal per I2C angebunden sein, sondern könnte auch an SPI hängen.
@@ -33,7 +33,7 @@ Sogar die Soundausgabe ist möglich. Auf einem Arduino UNO/Leonardo/Mega 2560 fu
 Portbit gewählt werden).
 
 
-## Vorteile bei der Verwendung eines leistungsstärkeren Mikrocontrolers
+## Vorteile bei der Verwendung eines leistungsstärkeren Mikrocontrollers
 * Serielles Debugging (mit 'Serial.print()') ist möglich
 * Auf neueren Mikrocontrollers und der Arduino IDE 2.0 sollte sogar Live-Debugging mit Breakpoints möglich sein
 * Schnellere Entwicklungszyklen: Das umständliche Umstecken von Kabeln oder sogar ICs entfällt vollständig
