@@ -1,7 +1,7 @@
 # Cross Development Framework für TinyJoypad
 ![<English Version>](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/README.md)
 
-Dieses Repository enthält ein kleines Framework zur Entwicklung von Spielen für das TinyJoypad unter Verwendung eines anschlussfreudigeren und leistungsfähigeren Mikorcontrollers 
+Dieses Repository enthält ein kleines Framework zur Entwicklung von Spielen für das TinyJoypad unter Verwendung eines anschlussfreudigeren und leistungsfähigeren Mikrocontrollers 
 (wie z.B. dem Arduino UNO/Leonardo/Mega 2560 oder auch vielen anderen).
 
 
@@ -37,12 +37,12 @@ Portbit gewählt werden).
 * Serielles Debugging (mit 'Serial.print()') ist möglich
 * Auf neueren Mikrocontrollers und der Arduino IDE 2.0 sollte sogar Live-Debugging mit Breakpoints möglich sein
 * Schnellere Entwicklungszyklen: Das umständliche Umstecken von Kabeln oder sogar ICs entfällt vollständig
-* Mehr Speicher (Flash und RAM) um ein Projekt überhaupt erst zum Laufen zu bringen. Komplexe Optimierungen können so erst am Ende erfolgen!
+* Mehr Speicher (Flash und RAM) um ein Projekt überhaupt zum Laufen zu bringen. Komplexe Optimierungen können so erst am Ende erfolgen
 * Weitere coole Möglichkeiten wie die Ausgabe eines Screenshots über den seriellen Port (als Hexdump)
 
 
 ## Wie funktioniert das?
-Ohne einen gesteckten ATtiny85 ist das TinyJoypad ein passives Bauteil, welches alle Signale am Modulport J1 bereitstellt.
+Ohne einen gesteckten ATtiny85 (und ohne Batterie!) ist das TinyJoypad ein passives Bauteil, welches alle Signale am Modulport J1 bereitstellt.
 Das bedeutet, dass wir alle Funktionalitäten des TinyJoypads (Display, Lautsprecher, Joystick und Feuerknöpfe) von außen erreichen können.
 Ich musste nur die Belegung des Ports herausfinden und voilà!
  
@@ -63,7 +63,7 @@ Wenn Euer TinyJoypad-Display 5V-tolerant ist, kann der Modulport des TinyJoypads
 | Pin 7            | SCL (i2c)     | SCL           | SCL           | SCL           |
 | Pin 8 (rechts)   | VCC           | VCC           | VCC           | VCC           |
  
-Bitte beachten, dass Pin 3 des Modulports wegen der Position von Port B4 je nach Mikrocontroller auf einem anderene Eingang liegt!
+Bitte beachten, dass Pin 3 des Modulports wegen der Position von Port B4 je nach Mikrocontroller mit einem anderene Ausgang verbunden werden muss!
 
 
 ## Verdrahtung für andere Mikrocontroller und nicht 5V-tolerante Displays

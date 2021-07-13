@@ -35,7 +35,7 @@ is necessary
 
 
 ## How Does It Work?
-Without an installed ATTiny85, the TinyJoypad is a passive device which offers all signals on the module connector J1.
+Without an installed ATTiny85 (and without the battery!) the TinyJoypad is a passive device which offers all signals on the module connector J1.
 That means, that we can use the display, the buzzer, the joystick and the fire buttons from the outside!
 I just had to figure out the correct wiring and voilà!
  
