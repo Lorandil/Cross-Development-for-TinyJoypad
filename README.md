@@ -89,7 +89,6 @@ For the full version please check out the sketch in the repository!
 
 ## Initialization of the TinyJoypad I/O-Pins and the Display
 ```javascript
-/*--------------------------------------------------------*/
 void setup()
 {
   // initialize the pins (and serial port if present)
@@ -101,7 +100,6 @@ void setup()
 
 ## Cyclic Image Rendering Call
 ```javascript
-/*--------------------------------------------------------*/
 void loop()
 {
   // render the image
@@ -111,7 +109,6 @@ void loop()
 
 ## Render and Display the Image
  ```javascript
-/*--------------------------------------------------------*/
 void Tiny_Flip()
 {
   // there are 8 rows with a height of 8 pixels
