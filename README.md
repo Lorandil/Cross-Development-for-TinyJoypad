@@ -72,10 +72,12 @@ If your flash memory gets really low at the end of your project, you are free to
 
  
 ## Sample Project "Lighthouse"
-The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels (6kB) and can be scrolled with the joystick. For every movement a short blip sound is played.
+The sample project  will display a part of an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels (6kB) and can be scrolled with the joystick.
+For every movement a short blip sound is played.
  
-The code works on TinyJoypad and on Arduino UNO/Leonardo/Mega 2560 (and probably many other controllers) without changing a single line of code!
+![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-LeonardoJoypad-800x600.jpg)
 
+The code works on TinyJoypad and on Arduino UNO/Leonardo/Mega 2560 (and probably many other controllers) without changing a single line of code!
 
 ### Here is a simplified version of the code without the bitmap and joystick stuff:
 For the full version please check out the sketch in the repository!

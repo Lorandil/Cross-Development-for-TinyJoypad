@@ -1,5 +1,5 @@
 # Cross Development Framework für TinyJoypad
-![English Version](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/README.md)
+![<English Version>](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/README.md)
 
 Dieses Repository enthält ein kleines Framework zur Entwicklung von Spielen für das TinyJoypad unter Verwendung eines anschlussfreudigeren und leistungsfähigeren Mikorcontrollers 
 (wie z.B. dem Arduino UNO/Leonardo/Mega 2560 oder auch vielen anderen).
@@ -84,10 +84,11 @@ Das Beispielprojekt zeigt einen Ausschnitt aus einem Bild des ikonischen Leuchtt
 Das Bild ist 129x256 Pixel groß (6kB) und kann mit dem Joystick gescrollt werden.
 Bei jeder Bewegung wird ein kurzer "Blip" über den Lautsprecher ausgegeben.
  
+![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-LeonardoJoypad-800x600.jpg)
+
 Der Code läuft ohne jede Änderung sowohl auf einem TinyJoypad als auch auf einem Arduino UNO/Leonardo/Mega 2560 (und vielen weiteren Mikrocontrollern)!
 
-
-### Hier eine gekürzte Version ohne die Joystick-Steuerung
+### Hier eine gekürzte Version des Beispielprojekts ohne die Steuerung und Tonausgabe
 Den vollständigen Sketch findet Ihr im Repository!
 
 ## Definitionen der verwendeten Funktionen
