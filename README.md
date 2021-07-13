@@ -9,10 +9,6 @@ This repository contains a small framework for developing games for the TinyJoyp
 TinyJoypad is a great project by the Canadian developer Daniel C which defines a standardized ATtiny85 gaming platform.
 On the TinyJoypad homepage https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
 
-A TinyJoypad consists of an ATtiny85, an SSD1306 driven I2C OLED, a joystyck, a button, a buzzer and some resistors.
-The wiring is simple and can be done on a breadboard or single sided prototype board.
-A really cool feature is the module port which allows fast switching between games.
-
 
 ## Why Should I Want to use Cross Development?
 When I was developing for the TinyJoypad, most code didn't work as it was expected on the first try.
@@ -75,7 +71,7 @@ The overhead of these functions is zero or nearly zero because the compiler will
 If your flash memory gets really low at the end of your project, you are free to try inlining the code by yourself.
 
  
-## Sample Project
+## Sample Project "Lighthouse"
 The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels (6kB) and can be scrolled with the joystick. For every movement a short blip sound is played.
  
 The code works on TinyJoypad and on Arduino UNO/Leonardo/Mega 2560 (and probably many other controllers) without changing a single line of code!
@@ -151,5 +147,5 @@ If the micro controllers are of comparable types like ATMEGA328 (Arduino Uno) or
 If your controller is much faster, you might see increased speed to the point, that your project (especially the controls) will begin to behave differently.
 You might counter that effect with `#ifdef` and `_delay_ms()`, but it's probably easier to stay with the above mentioned AVR chips.
 
-
-
+## License
+GNU General Public License v3.0

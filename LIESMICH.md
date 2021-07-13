@@ -11,10 +11,6 @@ Dieses Repository enthält ein kleines Framework zur Entwicklung von Spielen fü
 TinyJoypad ist ein großartiges Projekt des kanadischen Entwicklers Daniel C, welches eine standardisierte ATtiny85-Spieleplatform definiert.
 On the TinyJoypad homepage https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
 
-Ein TinyJoypad besteht aus einem ATtiny85, einem I2C OLED mit dem SSD1306-Chipsatz, einem Joystyck, einem Button, einem Beeper und einigen Widerständen.
-Die Verdrahtung ist simpel und kann auch auf einem Steckbrett oder einer Prototyp-Platine erfolgen.
-Eine wirklich coole Idee ist die Verwendung eines Modulports, welche einen schnellen Wechsel zwischen Spielen durch den Austausch des ATtiny85 ermöglicht.
-
 
 ## Warum sollte ich Cross Development nutzen wollen?
 Als ich für das TinyJoypad entwickelt habe, funktionierte ein guter Teil meines Codes nicht auf Anhieb so, wie ich es mir vorgestellt hatte.
@@ -36,67 +32,70 @@ Sogar die Soundausgabe ist möglich. Auf einem Arduino UNO/Leonardo/Mega 2560 fu
 Portbit gewählt werden).
 
 
-## Advantages of using a more resourceful micro controller
-* Serial debugging (by 'Serial.print()') is possible
-* On newer micro controllers and with Arduino IDE 2.0 even live debugging using breakpoints should be possible
-* Faster turn-around-cycles, because no cables need to be unplugged/plugged and no fiddling with modules or even chips
-is necessary
-* More memory to get things working - before optimizing for flash and RAM size (reducing readability)
-* Additional cool features as dumping a screenshot to the serial interface as a hexdump
+## Vorteile bei der Verwendung eines leistungsstärkeren Mikrocontrolers
+* Serielles Debugging (mit 'Serial.print()') ist möglich
+* Auf neueren Mikrocontrollers und der Arduino IDE 2.0 sollte sogar Live-Debugging mit Breakpoints möglich sein
+* Schnellere Entwicklungszyklen: Das umständliche Umstecken von Kabeln oder sogar ICs entfällt vollständig
+* Mehr Speicher (Flash und RAM) um ein Projekt überhaupt erst zum Laufen zu bringen. Komplexe Optimierungen können so erst am Ende erfolgen!
+* Weitere coole Möglichkeiten wie die Ausgabe eines Screenshots über den seriellen Port (als Hexdump)
 
 
-## How Does It Work?
-Without an installed ATTiny85, the TinyJoypad is a passive device which offers all signals on the module connector J1.
-That means, that we can use the display, the buzzer, the joystick and the fire buttons from the outside!
-I just had to figure out the correct wiring and voilà!
+## Wie funktioniert das?
+Ohne einen gesteckten ATtiny85 ist das TinyJoypad ein passives Bauteil, welches alle Signale am Modulport J1 bereitstellt.
+Das bedeutet, dass wir alle Funktionalitäten des TinyJoypads (Display, Lautsprecher, Joystick und Feuerknöpfe) von außen erreichen können.
+Ich musste nur die Belegung des Ports herausfinden und voilà!
  
-## Wiring for Arduino UNO, Leonardo and Mega 2560 with 5V Tolerant OLED Display
-If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port to the Arduino.
+## Verdrahtung für Arduino UNO/Leonardo/Mega 2560 mit einem 5V-toleranten Display
+Wenn Euer TinyJoypad-Display 5V-tolerant ist, kann der Modulport des TinyJoypads direkt mit dem Arduino verbunden werden:
 
-### PLEASE REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
+### BITTE VOR DEM ANSCHLUSS DIE BATTERIE AUS DEM TINYJOYPAD ENTFERNEN !!!
 
  
-| TinyJoypad J1    | Function      | UNO R3        | MEGA2560      | Leonardo      |
+| TinyJoypad J1    | Funktion      | UNO R3        | MEGA2560      | Leonardo      |
 | ---------------- |:-------------:|:-------------:|:-------------:|:-------------:|
-| Pin 1 (leftmost) | left/right    | A0            | A0            | A0            |
-| Pin 2            | up/down       | A3            | A3            | A3            |
-| Pin 3            | buzzer        | `D12`         | `D10`         | `D8`          |
+| Pin 1 (links)    | links/rechts  | A0            | A0            | A0            |
+| Pin 2            | hoch/runter   | A3            | A3            | A3            |
+| Pin 3            | Lautsprecher  | `D12`         | `D10`         | `D8`          |
 | Pin 4            | GND           | GND           | GND           | GND           |
 | Pin 5            | SDA (i2c)     | SDA           | SDA           | SDA           |
-| Pin 6            | fire          | A1            | A1            | A1            |
+| Pin 6            | Feuer         | A1            | A1            | A1            |
 | Pin 7            | SCL (i2c)     | SCL           | SCL           | SCL           |
-| Pin 8 (rightmost)| VCC           | VCC           | VCC           | VCC           |
+| Pin 8 (rechts)   | VCC           | VCC           | VCC           | VCC           |
  
-Please note that the connection of pin 3 differs between the controllers due to the location of PB4!
+Bitte beachten, dass Pin 3 des Modulports wegen der Position von Port B4 je nach Mikrocontroller auf einem anderene Eingang liegt!
 
 
-## Wiring for Other Micro Controllers and non 5V Tolerant Displays
-My first intuition was to simply use a level shifter. That works great for the display, the beeper and the fire button, but sadly *NOT for the direction buttons because these are analog inputs*.
-It's probably the easiest solution to use a level shifter where possible and voltage dividers for the two analog inputs.
+## Verdrahtung für andere Mikrocontroller und nicht 5V-tolerante Displays
+Mein erster Gedanke war eine Level-Shifter zu verwenden. Das funktioniert hervorragend für Display, Lautsprecher und Feuerknopf,
+leider aber *NICHT* für den Joystick, da dieser auf zwei Analogeingänge geht.
+Es ist vermutlich die einfachste Lösung wo möglich einen Level-Shifter zu nehmen und die Analogsignale über Spannungsteiler anzupassen.
 
 
-## How Do I Get the Same Software Running on TinyJoypad and Other Micro Controllers?
-I encapsulated all hardware related code into special functions, so that in your application code there is no need 
-for any special treatment on which controller the program is running!
-The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
-If your flash memory gets really low at the end of your project, you are free to try inlining the code by yourself.
+## Wie schaffe ich es dieselbe Software auf einem TinyJoypad und einem anderen Mikrocontroller laufen zu lassen?
+Für diesen Zweck habe ich allen Hardware-bezogenen Code in spezielle Funktionen gekapselt.
+In Eurem Anwendungscode müssen daher keine Controller-abhängigen Behandlungen eingebaut werden.
+Der Overhead dieser Funktion ist Null oder nahe Null, da der Compiler leere Funktionen entfernen und den restlichen Code
+direkt einbinden wird.
+Nur falls der Flashspeicher in Eurem Projekt sehr knapp wird, könnte es sich lohnen hier genauer hinzuschauen.
 
  
-## Sample Project
-The sample project  will display an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels (6kB) and can be scrolled with the joystick. For every movement a short blip sound is played.
+## Beispielprojekt "Leuchtturm"
+Das Beispielprojekt zeigt einen Ausschnitt aus einem Bild des ikonischen Leuchtturms "Rubjerg Knude Fyr" an.
+Das Bild ist 129x256 Pixel groß (6kB) und kann mit dem Joystick gescrollt werden.
+Bei jeder Bewegung wird ein kurzer "Blip" über den Lautsprecher ausgegeben.
  
-The code works on TinyJoypad and on Arduino UNO/Leonardo/Mega 2560 (and probably many other controllers) without changing a single line of code!
+Der Code läuft ohne jede Änderung sowohl auf einem TinyJoypad als auch auf einem Arduino UNO/Leonardo/Mega 2560 (und vielen weiteren Mikrocontrollern)!
 
 
-### Here is a simplified version of the code without the bitmap and joystick stuff:
-For the full version please check out the sketch in the repository!
+### Hier eine gekürzte Version ohne die Joystick-Steuerung
+Den vollständigen Sketch findet Ihr im Repository!
 
-## Definitions of the Required Functions
+## Definitionen der verwendeten Funktionen
 ```javascript
 #include "tinyJoypadUtils.h"
 ```
 
-## Initialization of the TinyJoypad I/O-Pins and the Display
+## Initialisierung der TinyJoypad I/O-Pins und des Displays
 ```javascript
 /*--------------------------------------------------------*/
 void setup()
@@ -108,7 +107,7 @@ void setup()
 }
 ```
 
-## Cyclic Image Rendering Call
+## Zyklischer Bildaufbau
 ```javascript
 /*--------------------------------------------------------*/
 void loop()
@@ -118,7 +117,7 @@ void loop()
 }
 ```
 
-## Render and Display the Image
+## Berechnung und Darstellung des Bildausschnitts
  ```javascript
 /*--------------------------------------------------------*/
 void Tiny_Flip()
@@ -148,15 +147,16 @@ void Tiny_Flip()
 ```
 
 
-## What are the Remaining Differences?
-If the micro controllers are of comparable types like ATMEGA328 (Arduino Uno) or MEGA2560 (Arduino Mega 2560) or AVR32U4 (Arduino Leonardo), the only differences you might notice will be:
+## Was sind die verbleibenden Unterschiede?
+Wenn Euer Mikrocontroller aus einer vergleichbaren Leistungsklasse wie dem  ATMEGA328 (Arduino Uno), AVR32U4 (Arduino Leonardo) oder MEGA2560 (Arduino Mega 2560) ist, sollten die einzigen Unterschiede sein:
 
-* The drawing of the image: Because the TinyJoypad has not enough RAM to render the output image in memory, the image is rendered while it is displayed. Depending on the speed of the calculations, this can be visible. The Adafruit library uses a RAM buffer for storing the rendered image. After rendering is complete, the image will be transfered in one piece, looking snappier.
+* Das Zeichnen des Bildes: Weil das TinyJoypad nicht genug RAM hat um das Bild im Speicher vorzuberechnen, wird das Bild schon während der Berechnung angezeigt. Das kann sichtbar sein.
+  Die Adafruit-Bibliothek hingegen verwendet einen RAM-Puffer. Dadurch kann das Bild nach der Berechnung in einem Transfer übertragen werden, die Anzeige wirkt "zackiger". 
 
-* The brightness of the OLED and the loudness of the beeper might be higher when using a 5V micro controller (due to the increased voltage).
+* Die Helligkeit des Displays und die Lautstärke des Lautsprechers können bei einem 5V-Mikrocontroller durch die erhöhte Betriebsspannung höher sein.
 
-If your controller is much faster, you might see increased speed to the point, that your project (especially the controls) will begin to behave differently.
-You might counter that effect with `#ifdef` and `_delay_ms()`, but it's probably easier to stay with the above mentioned AVR chips.
+Wenn Euer Mikrocontroller viel schneller ist, kann der Geschwindigkeitsunterschied so groß werden, dass Euer Projekt (insbesondere die Steuerung) sich anders verhält.
+Diesem Effekt könntet Ihr mit `#ifdef` und `_delay_ms()` entgegenwirken, aber vermutlich ist es einfacher bei einem der genannten AVR-Chips zu bleiben.
 
-
-
+## License
+GNU General Public License v3.0
