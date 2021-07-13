@@ -1,32 +1,39 @@
-# Cross Development Framework for TinyJoypad
-![Deutsche Version](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/LIESMICH.md)
+# Cross Development Framework für TinyJoypad
+![English Version](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/README.md)
 
-This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful micro controller like Arduino UNO, Leonardo, or Mega 2560 (and many other micro controllers).
+Dieses Repository enthält ein kleines Framework zur Entwicklung von Spielen für das TinyJoypad unter Verwendung eines anschlussfreudigeren und leistungsfähigeren Mikorcontrollers 
+(wie z.B. dem Arduino UNO/Leonardo/Mega 2560 oder auch vielen anderen).
+
 
 ![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-LeonardoJoypad-800x600.jpg)
  
-## What is TinyJoypad?
-TinyJoypad is a great project by the Canadian developer Daniel C which defines a standardized ATtiny85 gaming platform.
+## Was ist TinyJoypad?
+TinyJoypad ist ein großartiges Projekt des kanadischen Entwicklers Daniel C, welches eine standardisierte ATtiny85-Spieleplatform definiert.
 On the TinyJoypad homepage https://www.tinyjoypad.com/ you will find the schematics and a lot of cool games.
 
-A TinyJoypad consists of an ATtiny85, an SSD1306 driven I2C OLED, a joystyck, a button, a buzzer and some resistors.
-The wiring is simple and can be done on a breadboard or single sided prototype board.
-A really cool feature is the module port which allows fast switching between games.
+Ein TinyJoypad besteht aus einem ATtiny85, einem I2C OLED mit dem SSD1306-Chipsatz, einem Joystyck, einem Button, einem Beeper und einigen Widerständen.
+Die Verdrahtung ist simpel und kann auch auf einem Steckbrett oder einer Prototyp-Platine erfolgen.
+Eine wirklich coole Idee ist die Verwendung eines Modulports, welche einen schnellen Wechsel zwischen Spielen durch den Austausch des ATtiny85 ermöglicht.
 
 
-## Why Should I Want to use Cross Development?
-When I was developing for the TinyJoypad, most code didn't work as it was expected on the first try.
-That's normal for development - and even more when developing on a micro controller with limited resources and without any debugging support.
-Even if there would have been a possibility to use a library like SoftwareSerial, there is no free pin on the TinyJoypad!
-So I spent a lot of time thinking about possible causes for my bugs, that's good brain training - but mostly frustrating (especially when the problem is something stupid like wrong parameter order). Thus I thought it would be great to test the code on a more powerful "machine".
+## Warum sollte ich Cross Development nutzen wollen?
+Als ich für das TinyJoypad entwickelt habe, funktionierte ein guter Teil meines Codes nicht auf Anhieb so, wie ich es mir vorgestellt hatte.
+Das ist normal beim Programmieren - umso mehr, wenn man für einen Mikrocontroller mit begrenzten Resourcen und ohne Debugging-Unterstützung entwickelt.
+Erschwerend kommt hinzu, dass beim TinyJoypad wirklich *alle* Pins bereits belegt sind, eine Verwendung von Bibliotheken wie SoftwareSerial ist somit nicht möglich.
+Also habe ich über die Ursachen meine Bugs gegrübelt - das trainiert das logische Denken - ist aber oft frustrierend (besonders, wenn das Problem durch einen 
+dämlichen Fehler wie eine falsche Anordnung der Parameter verursacht wird...).
 
-At first I wanted to test the code on the PC, but the Arduino code is not pure C++ and it would have been difficult to check the rendered video output.
+Am Anfang wollte ich den Code auf dem PC testen, aber zum einen ist Arduino-Code kein reiner C++-Code und zum Anderen wäre eine Prüfung der Videoausgabe aufwändig gewesen.
 
-I thought that maybe I could get the <ssd1306xled> to work on an Arduino. A closer look into the code showed me, that this was above my abilities (because of the direct programming of the ATtiny registers for the I2C communication).
-After some reflection I decided to try using the <Adafruit_SSD1306> library, which is available for many micro controllers (including several Arduinos).
-And it worked - the Adafruit library supports direct access to the video buffer. Instead of writing a rendered byte directly to the display (as it is done on the ATtiny), the rendered data is stored in the video buffer and displayed when the buffer is complete.
+Meine nächste Idee war, ob ich vielleicht den <ssd1306xled> auf einem Arduino zum Laufen bringen könnten.
+Bei genauerer Betrachtung habe ich aber einsehen müssen, dass dies meine Fähigkeiten übersteigt (Programmierung der für I2C benutzten USI-Register auf dem ATtiny85).
+Nach einigem Überlegen entschied ich mich die  <Adafruit_SSD1306>-Bibliothek (welche für nahezu alle Mikrocontroller verfügbar ist) zu verwenden.
+Und es funktioniert: Die Adafruit-Bibliothek erlaubt einen direkten Zugriff auf ihren internen Bildspeicher.
+Anstatt die berechneten Pixel direkt über I2C an das Display zu senden (wie beim ATtiny85 notwendig), werden die Pixel in den Bildspeicher der Bibliothek übertragen 
+und nach dem "Bildaufbau" in einem Transfer an das Display gesendet. Dieses Display müsste theoretisch nicht einmal per I2C angebunden sein, sondern könnte auch an SPI hängen.
 
-Even sound output is possible (at least on Arduino UNO, Leonardo and Mega 2560, for other micro controllers a different port might be required).
+Sogar die Soundausgabe ist möglich. Auf einem Arduino UNO/Leonardo/Mega 2560 funktioniert das sogar ohne Code-Änderungen. Bei anderen Mikrocontrollern muss ggf. ein anderes
+Portbit gewählt werden).
 
 
 ## Advantages of using a more resourceful micro controller
