@@ -67,13 +67,13 @@ Bitte beachten, dass Pin 3 des Modulports wegen der Position von Port B4 je nach
 
 
 ## Verdrahtung für andere Mikrocontroller und nicht 5V-tolerante Displays
-Mein erster Gedanke war eine Level-Shifter zu verwenden. Das funktioniert hervorragend für Display, Lautsprecher und Feuerknopf,
-leider aber *NICHT* für den Joystick, da dieser auf zwei Analogeingänge geht.
+Mein erster Gedanke war einen Level-Shifter zu verwenden. Das funktioniert hervorragend für Display, Lautsprecher und Feuerknopf,
+leider aber *NICHT* für den Joystick, da die beiden Achsen auf je einen Analogeingang gehen.
 Es ist vermutlich die einfachste Lösung wo möglich einen Level-Shifter zu nehmen und die Analogsignale über Spannungsteiler anzupassen.
 
 
 ## Wie schaffe ich es, dieselbe Software auf einem TinyJoypad und einem anderen Mikrocontroller laufen zu lassen?
-Dafür gibt es dieses Framework! Der gesamte Hardware-bezogenen Code ist in spezielle Funktionen gekapselt.
+Dafür gibt es dieses Framework! Der gesamte Hardware-bezogenen Code ist in speziellen Funktionen gekapselt.
 In Eurem Anwendungscode müssen daher keine Controller-abhängigen Behandlungen eingebaut werden.
 Der Overhead dieser Funktion ist Null oder nahe Null, da der Compiler leere Funktionen entfernen und den restlichen Code
 direkt einbinden wird.
