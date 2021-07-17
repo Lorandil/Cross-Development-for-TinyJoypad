@@ -14,7 +14,7 @@ On the TinyJoypad homepage https://www.tinyjoypad.com/ you will find the schemat
 When I was developing for the TinyJoypad, most code didn't work as it was expected on the first try.
 That's normal for development - and even more when developing on a micro controller with limited resources and without any debugging support.
 Even if there would have been a possibility to use a library like SoftwareSerial, there is no free pin on the TinyJoypad!
-So I spent a lot of time thinking about possible causes for my bugs, that's good brain training - but mostly frustrating (especially when the problem is something stupid like wrong parameter order). Thus I thought it would be great to test the code on a more powerful "machine".
+So I spent a lot of time thinking about possible causes for my bugs. That's good brain training - but mostly frustrating (especially when the problem is something stupid like wrong parameter order). So I thought it would be great to test the code on a more powerful "machine".
 
 At first I wanted to test the code on the PC, but the Arduino code is not pure C++ and it would have been difficult to check the rendered video output.
 
