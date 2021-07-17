@@ -93,9 +93,6 @@ void Tiny_Flip()
 
   // display the whole screen at once
   TinyFlip_DisplayBuffer();
-
-  // Perform a screenshot if [x] enabled and [x] trigger condition me
-  TinyFlip_CheckForSerialScreenshot();
 }
 
 /*--------------------------------------------------------*/

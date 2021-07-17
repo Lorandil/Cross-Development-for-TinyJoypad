@@ -29,6 +29,8 @@
 #define _ENABLE_SERIAL_SCREENSHOT_
 // perform a serial screenshot if this condition is true:
 #define _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ ( isFirePressed() )
+// uncomment to disable automatic screenshot function
+//#define _SERIAL_SCREENSHOT_NO_AUTO_SHOT_
 
 
 // funciton for initializing the TinyJoypad (ATtiny85) and other microcontrollers

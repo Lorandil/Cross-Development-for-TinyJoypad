@@ -148,27 +148,35 @@ You might counter that effect with `#ifdef` and `_delay_ms()`, but it's probably
 
 
 ## You Said Something About Screenshots?
-To get a screenshot you only have to do two things:
+To get a screenshot you only have to do two things in `"tinyJoypadUtils.h"`:
 
-* enable the screenshot function in `"tinyJoypadUtils.h"`
+* enable the screenshot function 
 ```javascript
 ////////////////////////////////////////////////////////////
 // enable serial screenshot
 #define _ENABLE_SERIAL_SCREENSHOT_
+```
+* and define a trigger condition
+```javascript
 // perform a serial screenshot if this condition is true:
 #define _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ ( isFirePressed() )
 ```
-     
-* add a call to 
+
+If you don't want to enable the screenshot function permanently, you can disable it by uncommenting the following line
+```javascript
+// uncomment to disable automatic screenshot function
+//#define _SERIAL_SCREENSHOT_NO_AUTO_SHOT_
+```
+You will have to add a call to 
 ```javascript
 TinyFlip_CheckForSerialScreenshot()
 ``` 
-at the end of your `Tiny_Flip()` function.
+where you want to check the screenshot condition.
 
 The screenshot will be printed to the first serial port. There will even some instructions how to convert the hexdump back to a proper image using free tools:
      
 ```
-This is a TinyJoypad screenshot. To get an actual image perform the following steps:
+This is a TinyJoypad screenshot. Output is one hex byte per pixel. To get the actual image perform the following steps:
 (1) The output can be converted to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en' online.
 (2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...
 (3) Set Image width to 64 and Image height to 128, 8 BPP -> OK
