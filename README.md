@@ -158,12 +158,25 @@ To get a screenshot you only have to do two things:
 // perform a serial screenshot if this condition is true:
 #define _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ ( isFirePressed() )
 ```
+     
 * add a call to 
 ```javascript
 TinyFlip_CheckForSerialScreenshot()
-``` at the end of your `Tiny_Flip()` function.
+``` 
+at the end of your `Tiny_Flip()` function.
 
-The screenshot will be printed to the first serial port. There will even some instructions how to convert the hexdump back to a proper image using free tools.
+The screenshot will be printed to the first serial port. There will even some instructions how to convert the hexdump back to a proper image using free tools:
+     
+```
+This is a TinyJoypad screenshot. To get an actual image perform the following steps:
+(1) The output can be converted to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en' online.
+(2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...
+(3) Set Image width to 64 and Image height to 128, 8 BPP -> OK
+(4) Rotate and mirror the result as needed :)
+     
+0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,....
+```
+ 
 
 ## License
 GNU General Public License v3.0
