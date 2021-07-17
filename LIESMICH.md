@@ -75,9 +75,8 @@ Es ist vermutlich die einfachste Lösung wo möglich einen Level-Shifter zu nehm
 ## Wie schaffe ich es, dieselbe Software auf einem TinyJoypad und einem anderen Mikrocontroller laufen zu lassen?
 Dafür gibt es dieses Framework! Der gesamte Hardware-bezogenen Code ist in speziellen Funktionen gekapselt.
 In Eurem Anwendungscode müssen daher keine Controller-abhängigen Behandlungen eingebaut werden.
-Der Overhead dieser Funktion ist Null oder nahe Null, da der Compiler leere Funktionen entfernen und den restlichen Code
-direkt einbinden wird.
-Nur falls der Flashspeicher in Eurem Projekt sehr knapp wird, könnte es sich vielleicht lohnen hier genauer hinzuschauen.
+Nach meinen Erfahrungen ist der Overhead dieser Funktion Null, da der Compiler leere Funktionen entfernen und den restlichen Code direkt einbinden wird.
+Diese Behauptung habe ich an ![TinyInvaders v4.2](https://github.com/Lorandil/Tiny-invaders-v4.2) bestätigen können.
 
  
 ## Beispielprojekt "Leuchtturm"
