@@ -146,5 +146,24 @@ If the micro controllers are of comparable types like ATMEGA328 (Arduino Uno) or
 If your controller is much faster, you might see increased speed to the point, that your project (especially the controls) will begin to behave differently.
 You might counter that effect with `#ifdef` and `_delay_ms()`, but it's probably easier to stay with the above mentioned AVR chips.
 
+
+## You Said Something About Screenshots?
+To get a screenshot you only have to do two things:
+
+* enable the screenshot function in `"tinyJoypadUtils.h"`
+```javascript
+////////////////////////////////////////////////////////////
+// enable serial screenshot
+#define _ENABLE_SERIAL_SCREENSHOT_
+// perform a serial screenshot if this condition is true:
+#define _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ ( isFirePressed() )
+```
+* add a call to 
+```javascript
+TinyFlip_CheckForSerialScreenshot()
+``` at the end of your `Tiny_Flip()` function.
+
+The screenshot will be printed to the first serial port. There will even some instructions how to convert the hexdump back to a proper image using free tools.
+
 ## License
 GNU General Public License v3.0

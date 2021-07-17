@@ -29,11 +29,6 @@
 // Please enable LTO (link time optimization) and disable 'millis()' and
 // 'micros()'.
 
-// enable serial screenshot
-//#define _ENABLE_SERIAL_SCREENSHOT_
-// perform a serial screenshot if this condition is true:
-//#define _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ ( isRightPressed() )
-
 #include <Arduino.h>
 #include "tinyJoypadUtils.h"
 #include "sampleBitmap.h"
@@ -99,13 +94,8 @@ void Tiny_Flip()
   // display the whole screen at once
   TinyFlip_DisplayBuffer();
 
-  #ifdef _ENABLE_SERIAL_SCREENSHOT_
-    if ( _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ )
-    {
-      // print a screenshot to the serial interface
-      TinyFlip_SerialScreenshot();
-    }
-  #endif
+  // Perform a screenshot if [x] enabled and [x] trigger condition me
+  TinyFlip_CheckForSerialScreenshot();
 }
 
 /*--------------------------------------------------------*/
