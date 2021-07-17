@@ -67,8 +67,8 @@ It's probably the easiest solution to use a level shifter where possible and vol
 ## How Do I Get the Same Software Running on TinyJoypad and Other Micro Controllers?
 That's what this framework was made for! I encapsulated all hardware related code into special functions, so that in your application
 code there is no need for any special treatment on which controller the program is running!
-The overhead of these functions is zero or nearly zero because the compiler will inline most of the code.
-If your flash memory gets really low at the end of your project, you are free to try inlining the code by yourself.
+In my experience the overhead of these functions is zero, because the compiler will inline the functions (if not empty for the target platform) or discard them (if empty).
+I verified this claim on ![TinyInvaders v4.2](https://github.com/Lorandil/Tiny-invaders-v4.2).
 
  
 ## Sample Project "Lighthouse"
