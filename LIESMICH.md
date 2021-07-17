@@ -156,5 +156,34 @@ Wenn Euer Mikrocontroller aus einer vergleichbaren Leistungsklasse wie dem  ATME
 Wenn Euer Mikrocontroller viel schneller ist, kann der Geschwindigkeitsunterschied so groß werden, dass Euer Projekt (insbesondere die Steuerung) sich anders verhält.
 Diesem Effekt könntet Ihr mit `#ifdef` und `_delay_ms()` entgegenwirken, aber vermutlich ist es einfacher bei einem der genannten AVR-Chips zu bleiben.
 
+## Wie war das mit Screenshots?
+Um einen Screenshot zu erhalten müssen die folgenden zwei Dinge in `"tinyJoypadUtils.h"` angepasst werden:
+
+* die Screenshot-Funktionalität muss aktiviert werden
+```javascript
+////////////////////////////////////////////////////////////
+// enable serial screenshot
+#define _ENABLE_SERIAL_SCREENSHOT_
+```
+* und eine Auslösebedingung muss festlegt sein
+```javascript
+// perform a serial screenshot if this condition is true:
+#define _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ ( isFirePressed() )
+```
+     
+Das ist alles. Jedesmal, wenn die Auslösebedingung während `TinyFlip_DisplayBuffer()` erfüllt ist, wird ein Screenshot auf dem ersten seriellen Port ausgegeben.
+Vor dem eigentlichen Screenshot werden Anweisungen ausgegeben, wie der Hexdump mit freien Tools wieder in ein Bild umgewandelt werden kann:
+     
+```
+This is a TinyJoypad screenshot. Output is one hex byte per pixel. To get the actual image perform the following steps:
+(1) The output can be converted to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en' online.
+(2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...
+(3) Set Image width to 64 and Image height to 128, 8 BPP -> OK
+(4) Rotate and mirror the result as needed :)
+     
+0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,....
+```
+ 
+
 ## Lizenz
 GNU General Public License v3.0

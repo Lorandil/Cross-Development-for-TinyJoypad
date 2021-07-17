@@ -199,29 +199,39 @@ void TinyFlip_DisplayBuffer()
 }
 
 /*-------------------------------------------------------*/
-// Perform a screenshot if 
-//  [x] enabled and 
-//  [x] trigger condition met
-//
 // Output is one hex byte per pixel. To get the actual image perform the following steps:
 // (1) The output can be converted to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en' online.
 // (2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...
 // (3) Set Image width to 64 and Image height to 128, 8 BPP -> OK
 // (4) Rotate and mirror the result as needed :)
+void TinyFlip_SerialScreenshot()
+{
+#if !defined(__AVR_ATtiny85__) /* codepath for any Adafruit_SSD1306 supported MCU */
+  #ifdef _ENABLE_SERIAL_SCREENSHOT_
+    // print a short header
+    Serial.println( F("\r\nThis is a TinyJoypad screenshot. Output is one hex byte per pixel. To get the actual image perform the following steps:") );
+    Serial.println( F("(1) The output can be converted to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en' online.") );
+    Serial.println( F("(2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...") );
+    Serial.println( F("(3) Set Image width to 64 and Image height to 128, 8 BPP -> OK") );
+    Serial.println( F("(4) Rotate and mirror the result as needed :)\r\n") );
+    // output the full buffer as a hexdump to the serial port
+    printScreenBufferToSerial( display.getBuffer(), 128, 8 );
+  #endif
+#endif
+}
+
+/*-------------------------------------------------------*/
+// Perform a screenshot if 
+//  [x] enabled and 
+//  [x] trigger condition met
 void TinyFlip_CheckForSerialScreenshot()
 {
-#ifdef _ENABLE_SERIAL_SCREENSHOT_
-  #if !defined(__AVR_ATtiny85__) /* codepath for any Adafruit_SSD1306 supported MCU */
+#if !defined(__AVR_ATtiny85__) /* codepath for any Adafruit_SSD1306 supported MCU */
+  #ifdef _ENABLE_SERIAL_SCREENSHOT_
     if ( _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ )
     {
-      // print a short header
-      Serial.println( F("\r\nThis is a TinyJoypad screenshot. Output is one hex byte per pixel. To get the actual image perform the following steps:") );
-      Serial.println( F("(1) The output can be converted to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en' online.") );
-      Serial.println( F("(2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...") );
-      Serial.println( F("(3) Set Image width to 64 and Image height to 128, 8 BPP -> OK") );
-      Serial.println( F("(4) Rotate and mirror the result as needed :)\r\n") );
-      // output the full buffer as a hexdump to the serial port
-      printScreenBufferToSerial( display.getBuffer(), 128, 8 );
+      // perform the screenshot
+      TinyFlip_SerialScreenshot();
     }
   #endif
 #endif
