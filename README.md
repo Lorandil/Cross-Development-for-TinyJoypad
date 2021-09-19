@@ -35,17 +35,17 @@ is necessary
 
 
 ## How Does It Work?
-Without an installed ATTiny85 (and without the battery!) the TinyJoypad is a passive device which offers all signals on the module connector J1.
+Without an installed ATTiny85 (and without the battery!) the TinyJoypad is a passive device which offers all signals on the ATtiny DIL8 socket or even handier on the module connector J1.
 That means, that we can use the display, the buzzer, the joystick and the fire buttons from the outside!
 I just had to figure out the correct wiring and voilà!
  
 ## Wiring for Arduino UNO, Leonardo and Mega 2560 with 5V Tolerant OLED Display
-If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port to the Arduino.
+If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port J1 (or the DIL8 socket if you have a homemade TinyJoypad) to the Arduino.
 
 ### PLEASE REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
 
  
-| TinyJoypad J1    | Function      | UNO R3        | MEGA2560      | Leonardo      |
+| TinyJoypad J1 / ATtiny85 Pin   | Function      | UNO R3        | MEGA2560      | Leonardo      |
 | ---------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Pin 1 (leftmost) | left/right    | A0            | A0            | A0            |
 | Pin 2            | up/down       | A3            | A3            | A3            |
