@@ -45,18 +45,16 @@ If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoyp
 ### PLEASE REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
 
  
-| TinyJoypad J1 / ATtiny85 Pin   | Function      | UNO R3        | MEGA2560      | Leonardo      |
-| ---------------- |:-------------:|:-------------:|:-------------:|:-------------:|
-| Pin 1 (leftmost) | left/right    | A0            | A0            | A0            |
-| Pin 2            | up/down       | A3            | A3            | A3            |
-| Pin 3            | buzzer        | `D12`         | `D10`         | `D8`          |
-| Pin 4            | GND           | GND           | GND           | GND           |
-| Pin 5            | SDA (I2C)     | SDA           | SDA           | SDA           |
-| Pin 6            | fire          | A1            | A1            | A1            |
-| Pin 7            | SCL (I2c)     | SCL           | SCL           | SCL           |
-| Pin 8 (rightmost)| VCC           | VCC           | VCC           | VCC           |
- 
-Please note that the connection of pin 3 differs between the controllers due to the location of PB4!
+| TinyJoypad J1 / ATtiny85 Pin   | Function      | UNO R3 / MEGA2560 / Leonardo      |
+| ---------------- |:-------------:|:-------------:|
+| Pin 1 (leftmost) | left/right    | A0            |
+| Pin 2            | up/down       | A3            |
+| Pin 3            | buzzer        | `D12`         |
+| Pin 4            | GND           | GND           |
+| Pin 5            | SDA (I2C)     | SDA           |
+| Pin 6            | fire          | A1            |
+| Pin 7            | SCL (I2c)     | SCL           |
+| Pin 8 (rightmost)| VCC           | VCC           |
 
 
 ## Wiring for Other Micro Controllers and non 5V Tolerant Displays
