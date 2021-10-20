@@ -35,27 +35,29 @@ is necessary
 
 
 ## How Does It Work?
-Without an installed ATTiny85 (and without the battery!) the TinyJoypad is a passive device which offers all signals on the module connector J1.
+Without an installed ATTiny85 (and without the battery!) the TinyJoypad is a passive device which offers all signals on the ATtiny DIL8 socket or even handier on the module connector J1.
 That means, that we can use the display, the buzzer, the joystick and the fire buttons from the outside!
 I just had to figure out the correct wiring and voilà!
  
 ## Wiring for Arduino UNO, Leonardo and Mega 2560 with 5V Tolerant OLED Display
-If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port to the Arduino.
+If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port J1 (or the DIL8 socket if you have a homemade TinyJoypad) to the Arduino.
 
 ### PLEASE REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
 
  
-| TinyJoypad J1    | Function      | UNO R3 / MEGA2560 / Leonardo      |
-| ---------------- |:-------------:|:-------------:|
-| Pin 1 (leftmost) | left/right    | A0            |
-| Pin 2            | up/down       | A3            |
-| Pin 3            | buzzer        | `D12`         |
-| Pin 4            | GND           | GND           |
-| Pin 5            | SDA (I2C)     | SDA           |
-| Pin 6            | fire          | A1            |
-| Pin 7            | SCL (I2c)     | SCL           |
-| Pin 8 (rightmost)| VCC           | VCC           |
+| TinyJoypad J1 / ATtiny85 Pin   | Function      | UNO R3        | MEGA2560      | Leonardo      |
+| ---------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| Pin 1 (leftmost) | left/right    | A0            | A0            | A0            |
+| Pin 2            | up/down       | A3            | A3            | A3            |
+| Pin 3            | buzzer        | `D12`         | `D10`         | `D8`          |
+| Pin 4            | GND           | GND           | GND           | GND           |
+| Pin 5            | SDA (I2C)     | SDA           | SDA           | SDA           |
+| Pin 6            | fire          | A1            | A1            | A1            |
+| Pin 7            | SCL (I2c)     | SCL           | SCL           | SCL           |
+| Pin 8 (rightmost)| VCC           | VCC           | VCC           | VCC           |
  
+Please note that the connection of pin 3 differs between the controllers due to the location of PB4!
+
 
 ## Wiring for Other Micro Controllers and non 5V Tolerant Displays
 My first intuition was to simply use a level shifter. That works great for the display, the beeper and the fire button, but sadly *NOT for the direction buttons because these are analog inputs*.
