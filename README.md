@@ -164,7 +164,7 @@ That's all. Everytime your trigger condition is met during `TinyFlip_DisplayBuff
      
 ```
 This is a TinyJoypad screenshot. Output is one hex byte per pixel. To get the actual image perform the following steps:
-(1) The output can be converted to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en' online.
+(1) The output can be converted online to binary with 'https://tomeko.net/online_tools/hex_to_file.php?lang=en'.
 (2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...
 (3) Set Image width to 64 and Image height to 128, 8 BPP -> OK
 (4) Rotate and mirror the result as needed :)
