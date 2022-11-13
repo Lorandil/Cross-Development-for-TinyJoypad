@@ -67,32 +67,32 @@ void loop()
   }
 
   // render the image
-  Tiny_Flip();  
+  RenderImage();  
 }
 
 /*--------------------------------------------------------*/
-void Tiny_Flip()
+void RenderImage()
 {
   // there are 8 rows with a height of 8 pixels
   for ( uint8_t y = 0; y < 8; y++)
   {
     // prepare display of row <y>
-    TinyFlip_PrepareDisplayRow( y );
+    PrepareDisplayRow( y );
 
     // there are 128 columns of 8 vertical aligned pixels
     for ( uint8_t x = 0; x < 128; x++ )
     {
       uint8_t pixels = pgm_read_byte( RubjergKnudeFyr + posX + x + ( y + posY ) * IMAGE_COLS );
       // send 8 vertical pixels
-      TinyFlip_SendPixels( pixels );
+      SendPixels( pixels );
     } // for x
     
     // this row is finished
-    TinyFlip_FinishDisplayRow();
+    FinishDisplayRow();
   } // for y
 
   // display the whole screen at once
-  TinyFlip_DisplayBuffer();
+  DisplayBuffer();
 }
 
 /*--------------------------------------------------------*/

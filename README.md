@@ -53,7 +53,7 @@ If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoyp
 | Pin 4            | GND           | GND           |
 | Pin 5            | SDA (I2C)     | SDA           |
 | Pin 6            | fire          | A1            |
-| Pin 7            | SCL (I2c)     | SCL           |
+| Pin 7            | SCL (I2C)     | SCL           |
 | Pin 8 (rightmost)| VCC           | VCC           |
 
 
@@ -71,7 +71,7 @@ I verified this claim on ![TinyInvaders v4.2](https://github.com/Lorandil/Tiny-i
  
 ## Sample Project "Lighthouse"
 The sample project  will display a part of an image of the iconic Rubjerg Knude Fyr. The image is 192x256 pixels (6kB) and can be scrolled with the joystick.
-For every movement a short blip sound is played.
+With every movement a short blip sound is played.
  
 ![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-MakerUnoJoypad-reduced.jpg)
 
@@ -101,19 +101,19 @@ void setup()
 void loop()
 {
   // render the image
-  Tiny_Flip();  
+  RenderImage();  
 }
 ```
 
 ## Render and Display the Image
  ```javascript
-void Tiny_Flip()
+void RenderImage()
 {
   // there are 8 rows with a height of 8 pixels
   for ( uint8_t y = 0; y < 8; y++)
   {
     // prepare display of row <y>
-    TinyFlip_PrepareDisplayRow( y );
+    PrepareDisplayRow( y );
 
     // there are 128 columns of 8 vertical aligned pixels
     for ( uint8_t x = 0; x < 128; x++ )
@@ -121,15 +121,15 @@ void Tiny_Flip()
       // get the pixels from somewhere
       uint8_t pixels = ...
       // send 8 vertical pixels to the display
-      TinyFlip_SendPixels( pixels );
+      SendPixels( pixels );
     }
     
     // this row has been finished
-    TinyFlip_FinishDisplayRow();
+    FinishDisplayRow();
   }
 
   // display the whole screen
-  TinyFlip_DisplayBuffer();
+  DisplayBuffer();
 }
 ```
 
@@ -168,6 +168,7 @@ This is a TinyJoypad screenshot. Output is one hex byte per pixel. To get the ac
 (2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...
 (3) Set Image width to 64 and Image height to 128, 8 BPP -> OK
 (4) Rotate and mirror the result as needed :)
+Hint: If you only get partial screenshots, try using a terminal program to capture the serial output.
      
 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,....
 ```

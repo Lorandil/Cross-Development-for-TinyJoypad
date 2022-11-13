@@ -112,19 +112,19 @@ void setup()
 void loop()
 {
   // render the image
-  Tiny_Flip();  
+  RenderImage();  
 }
 ```
 
 ## Berechnung und Darstellung des Bildausschnitts
  ```javascript
-void Tiny_Flip()
+void RenderImage()
 {
   // there are 8 rows with a height of 8 pixels
   for ( uint8_t y = 0; y < 8; y++)
   {
     // prepare display of row <y>
-    TinyFlip_PrepareDisplayRow( y );
+    PrepareDisplayRow( y );
 
     // there are 128 columns of 8 vertical aligned pixels
     for ( uint8_t x = 0; x < 128; x++ )
@@ -132,15 +132,15 @@ void Tiny_Flip()
       // get the pixels from somewhere
       uint8_t pixels = ...
       // send 8 vertical pixels to the display
-      TinyFlip_SendPixels( pixels );
+      SendPixels( pixels );
     }
     
     // this row has been finished
-    TinyFlip_FinishDisplayRow();
+    FinishDisplayRow();
   }
 
   // display the whole screen
-  TinyFlip_DisplayBuffer();
+  DisplayBuffer();
 }
 ```
 
@@ -180,6 +180,7 @@ This is a TinyJoypad screenshot. Output is one hex byte per pixel. To get the ac
 (2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...
 (3) Set Image width to 64 and Image height to 128, 8 BPP -> OK
 (4) Rotate and mirror the result as needed :)
+Hint: If you only get partial screenshots, try using a terminal program to capture the serial output.
      
 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,....
 ```

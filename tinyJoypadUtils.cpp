@@ -23,6 +23,10 @@
   #endif
 #endif
 
+// buffered analog joystick inputs
+uint16_t analogJoystickX;
+uint16_t analogJoystickY;
+
 
 /*-------------------------------------------------------*/
 // function for initializing the TinyJoypad (ATtiny85) and other microcontrollers
@@ -97,7 +101,51 @@ void waitUntilButtonsReleased( const uint8_t delay )
 }
 
 /*-------------------------------------------------------*/
-void _variableDelay_us( uint8_t delayValue )
+// read analog joystick inputs into internal variables
+void readAnalogJoystick()
+{
+  analogJoystickX = analogRead( LEFT_RIGHT_BUTTON );
+  analogJoystickY = analogRead( UP_DOWN_BUTTON );
+}
+
+/*-------------------------------------------------------*/
+bool wasLeftPressed()
+{
+  return( ( analogJoystickX >= 750 ) && ( analogJoystickX < 950 ) );
+}
+
+/*-------------------------------------------------------*/
+bool wasRightPressed()
+{
+  return( ( analogJoystickX > 500 ) && ( analogJoystickX < 750 ) );
+}
+
+/*-------------------------------------------------------*/
+bool wasUpPressed()
+{
+  return( ( analogJoystickY > 500 ) && ( analogJoystickY < 750 ) );
+}
+
+/*-------------------------------------------------------*/
+bool wasDownPressed()
+{
+  return( ( analogJoystickY >= 750 ) && ( analogJoystickY < 950 ) );
+}
+
+/*-------------------------------------------------------*/
+uint16_t getAnalogValueX()
+{
+  return( analogJoystickX );
+}
+
+/*-------------------------------------------------------*/
+uint16_t getAnalogValueY()
+{
+  return( analogJoystickY );
+}
+
+/*-------------------------------------------------------*/
+void __attribute__ ((noinline)) _variableDelay_us( uint8_t delayValue )
 {
   while ( delayValue-- != 0 )
   {
@@ -129,14 +177,15 @@ void InitDisplay()
   // Address 0x3D for 128x64
   if( !display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) 
   { 
-    Serial.println(F("SSD1306 allocation failed")); for(;;);
+    // extended the error message
+    Serial.println(F("SSD1306 allocation failed - 1024 bytes for frame buffer required!")); for(;;);
   }
 #endif
 }
 
 /*-------------------------------------------------------*/
 // This code will init the display for row <y>
-void TinyFlip_PrepareDisplayRow( uint8_t y )
+void PrepareDisplayRow( uint8_t y )
 {
 #if defined(__AVR_ATtiny85__)  /* codepath for ATtiny85 */
     // initialize image transfer to segment 'y'
@@ -161,7 +210,7 @@ void TinyFlip_PrepareDisplayRow( uint8_t y )
 }
 
 /*-------------------------------------------------------*/
-void TinyFlip_SendPixels( uint8_t pixels )
+void SendPixels( uint8_t pixels )
 {
 #if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
   // send a byte directly to the SSD1306
@@ -175,7 +224,7 @@ void TinyFlip_SendPixels( uint8_t pixels )
 
 /*-------------------------------------------------------*/
 // This code will finish a row (only on Tiny85)
-void TinyFlip_FinishDisplayRow()
+void FinishDisplayRow()
 {
 #if defined(__AVR_ATtiny85__)
   // this line appears to be optional, as it was never called during the intro screen...
@@ -185,7 +234,7 @@ void TinyFlip_FinishDisplayRow()
 }
 
 /*-------------------------------------------------------*/
-void TinyFlip_DisplayBuffer()
+void DisplayBuffer()
 {
 #if !defined(__AVR_ATtiny85__) /* codepath for any Adafruit_SSD1306 supported MCU */
   // display buffer (not necessary)
@@ -193,7 +242,7 @@ void TinyFlip_DisplayBuffer()
 
   #ifndef _SERIAL_SCREENSHOT_NO_AUTO_SHOT_
     // check for screenshot request
-    TinyFlip_CheckForSerialScreenshot();
+    CheckForSerialScreenshot();
   #endif
 #endif
 }
@@ -204,7 +253,7 @@ void TinyFlip_DisplayBuffer()
 // (2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...
 // (3) Set Image width to 64 and Image height to 128, 8 BPP -> OK
 // (4) Rotate and mirror the result as needed :)
-void TinyFlip_SerialScreenshot()
+void SerialScreenshot()
 {
 #if !defined(__AVR_ATtiny85__) /* codepath for any Adafruit_SSD1306 supported MCU */
   #ifdef _ENABLE_SERIAL_SCREENSHOT_
@@ -214,6 +263,7 @@ void TinyFlip_SerialScreenshot()
     Serial.println( F("(2) Then import the file with IrfanView (https://www.irfanview.com/): Open as -> RAW file...") );
     Serial.println( F("(3) Set Image width to 64 and Image height to 128, 8 BPP -> OK") );
     Serial.println( F("(4) Rotate and mirror the result as needed :)\r\n") );
+    Serial.println( F("Hint: If you only get partial screenshots, try using a terminal program to capture the serial output.") );
     // output the full buffer as a hexdump to the serial port
     printScreenBufferToSerial( display.getBuffer(), 128, 8 );
   #endif
@@ -224,14 +274,14 @@ void TinyFlip_SerialScreenshot()
 // Perform a screenshot if 
 //  [x] enabled and 
 //  [x] trigger condition met
-void TinyFlip_CheckForSerialScreenshot()
+void CheckForSerialScreenshot()
 {
 #if !defined(__AVR_ATtiny85__) /* codepath for any Adafruit_SSD1306 supported MCU */
   #ifdef _ENABLE_SERIAL_SCREENSHOT_
     if ( _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ )
     {
       // perform the screenshot
-      TinyFlip_SerialScreenshot();
+      SerialScreenshot();
     }
   #endif
 #endif
@@ -243,7 +293,7 @@ void TinyFlip_CheckForSerialScreenshot()
 /*-------------------------------------------------------*/
 void serialPrint( const char *text )
 {
-#if !defined(__AVR_ATtiny85__)
+#ifdef USE_SERIAL_PRINT
   Serial.print( text );
 #endif
 }
@@ -251,7 +301,7 @@ void serialPrint( const char *text )
 /*-------------------------------------------------------*/
 void serialPrintln( const char *text )
 {
-#if !defined(__AVR_ATtiny85__)
+#ifdef USE_SERIAL_PRINT
   Serial.println( text );
 #endif
 }
@@ -259,7 +309,7 @@ void serialPrintln( const char *text )
 /*-------------------------------------------------------*/
 void serialPrint( const __FlashStringHelper *text )
 {
-#if !defined(__AVR_ATtiny85__)
+#ifdef USE_SERIAL_PRINT
   Serial.print( text );
 #endif
 }
@@ -267,7 +317,7 @@ void serialPrint( const __FlashStringHelper *text )
 /*-------------------------------------------------------*/
 void serialPrintln( const __FlashStringHelper *text )
 {
-#if !defined(__AVR_ATtiny85__)
+#ifdef USE_SERIAL_PRINT
   Serial.println( text );
 #endif
 }
@@ -275,7 +325,7 @@ void serialPrintln( const __FlashStringHelper *text )
 /*-------------------------------------------------------*/
 void serialPrint( const uint16_t number )
 {
-#if !defined(__AVR_ATtiny85__)
+#ifdef USE_SERIAL_PRINT
   Serial.print( number );
 #endif
 }
@@ -283,7 +333,7 @@ void serialPrint( const uint16_t number )
 /*-------------------------------------------------------*/
 void serialPrintln( const uint16_t number )
 {
-#if !defined(__AVR_ATtiny85__)
+#ifdef USE_SERIAL_PRINT
   Serial.println( number );
 #endif
 }
@@ -291,7 +341,7 @@ void serialPrintln( const uint16_t number )
 /*-------------------------------------------------------*/
 void serialPrint( const int16_t number )
 {
-#if !defined(__AVR_ATtiny85__)
+#ifdef USE_SERIAL_PRINT
   Serial.print( number );
 #endif
 }
@@ -299,7 +349,7 @@ void serialPrint( const int16_t number )
 /*-------------------------------------------------------*/
 void serialPrintln( const int16_t number )
 {
-#if !defined(__AVR_ATtiny85__)
+#ifdef USE_SERIAL_PRINT
   Serial.println( number );
 #endif
 }
