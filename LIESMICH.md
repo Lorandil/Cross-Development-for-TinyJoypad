@@ -52,18 +52,16 @@ Wenn Euer TinyJoypad-Display 5V-tolerant ist, kann der Modulport des TinyJoypads
 ### BITTE VOR DEM ANSCHLUSS DIE BATTERIE AUS DEM TINYJOYPAD ENTFERNEN !!!
 
  
-| TinyJoypad J1    | Funktion      | UNO R3        | MEGA2560      | Leonardo      |
-| ---------------- |:-------------:|:-------------:|:-------------:|:-------------:|
-| Pin 1 (links)    | links/rechts  | A0            | A0            | A0            |
-| Pin 2            | hoch/runter   | A3            | A3            | A3            |
-| Pin 3            | Lautsprecher  | `D12`         | `D10`         | `D8`          |
-| Pin 4            | GND           | GND           | GND           | GND           |
-| Pin 5            | SDA (I2C)     | SDA           | SDA           | SDA           |
-| Pin 6            | Feuer         | A1            | A1            | A1            |
-| Pin 7            | SCL (I2C)     | SCL           | SCL           | SCL           |
-| Pin 8 (rechts)   | VCC           | VCC           | VCC           | VCC           |
- 
-Bitte beachten, dass Pin 3 des Modulports wegen der Position von Port B4 je nach Mikrocontroller mit einem anderene Ausgang verbunden werden muss!
+| TinyJoypad J1 / ATtiny85 Pin | Funktion | UNO R3 / MEGA2560 / Leonardo | Farbe |
+| ---------------- |:-------------:|:-------------:|:-------: |
+| Pin 1 (links)    | links/rechts  | A0            | orange  |
+| Pin 2            | hoch/runter   | A3            | gelb    |
+| Pin 3            | Lautsprecher  | `D12`         | braun   |
+| Pin 4            | GND           | GND           | schwarz |
+| Pin 5            | SDA (I2C)     | SDA           | grün    |
+| Pin 6            | Feuer         | A1            | lila    |
+| Pin 7            | SCL (I2C)     | SCL           | blau    |
+| Pin 8 (rechts)   | VCC           | VCC           | rot     | 
 
 
 ## Verdrahtung für andere Mikrocontroller und nicht 5V-tolerante Displays
