@@ -79,7 +79,7 @@ Diese Behauptung habe ich an ![TinyInvaders v4.2](https://github.com/Lorandil/Ti
  
 ## Beispielprojekt "Leuchtturm"
 Das Beispielprojekt zeigt einen Ausschnitt aus einem Bild des ikonischen Leuchtturms "Rubjerg Knude Fyr" an.
-Das Bild ist 129x256 Pixel groß (6kB) und kann mit dem Joystick gescrollt werden.
+Das Bild ist 192x256 Pixel groß (6kB) und kann mit dem Joystick gescrollt werden.
 Bei jeder Bewegung wird ein kurzer "Blip" über den Lautsprecher ausgegeben.
  
 ![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-MakerUnoJoypad-reduced.jpg)
