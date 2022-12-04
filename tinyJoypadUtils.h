@@ -2,8 +2,13 @@
 
 #include <Arduino.h>
 
-// required for _delay_us()
-#include <ssd1306xled.h>
+#if defined( __AVR_ATtiny85__)
+  // required for _delay_us()
+  #include <util/delay.h>
+#else
+  #define _delay_ms    delay
+  #define _delay_us    delayMicroseconds
+#endif
 
 ////////////////////////////////////////////////////////////
 // Uncomment the following line if you are using the old function naming convention
@@ -42,25 +47,25 @@
     #define LEFT_RIGHT_BUTTON A0
     #define UP_DOWN_BUTTON    A3
     #define FIRE_BUTTON       A1
-    #define SOUND_PIN          6
-    #define SOUND_PORT_DDR  DDRB
-    #define SOUND_PORT     PORTB
+    #define SOUND_PIN         12
   #elif defined(__AVR_ATmega32U4__)
     // Arduino Leonardo (and compatible)
     #define LEFT_RIGHT_BUTTON A0
     #define UP_DOWN_BUTTON    A3
     #define FIRE_BUTTON       A1
-    #define SOUND_PIN          6
-    #define SOUND_PORT_DDR  DDRD
-    #define SOUND_PORT     PORTD
+    #define SOUND_PIN         12
   #elif defined(__AVR_ATmega328P__)
     // Arduino UNO R3 (and compatible)
     #define LEFT_RIGHT_BUTTON A0
     #define UP_DOWN_BUTTON    A3
     #define FIRE_BUTTON       A1
-    #define SOUND_PIN          4
-    #define SOUND_PORT_DDR  DDRB
-    #define SOUND_PORT     PORTB
+    #define SOUND_PIN         12
+  #elif defined(_VARIANT_ARDUINO_ZERO_)
+    // Arduino Zero
+    #define LEFT_RIGHT_BUTTON A0
+    #define UP_DOWN_BUTTON    A3
+    #define FIRE_BUTTON       A1
+    #define SOUND_PIN         12
   #else
     // change these definitions as required
     #define LEFT_RIGHT_BUTTON A0
@@ -86,7 +91,7 @@ bool isUpPressed();
 bool isDownPressed();
 bool isFirePressed();
 void waitUntilButtonsReleased();
-void waitUntilButtonsReleased( const uint8_t delay );
+void waitUntilButtonsReleased( const uint8_t delayTime );
 
 // read analog joystick inputs into internal variables
 void readAnalogJoystick();
@@ -127,7 +132,7 @@ void serialPrint( const char *text );
 void serialPrintln( const char *text );
 void serialPrint( const __FlashStringHelper *text );
 void serialPrintln( const __FlashStringHelper *text );
-void serialPrint( const uint16_t number );
-void serialPrintln( const uint16_t number );
-void serialPrint( const int16_t number );
-void serialPrintln( const int16_t number );
+void serialPrint( const unsigned int number );
+void serialPrintln( const unsigned int number );
+void serialPrint( const int number );
+void serialPrintln( const int number );

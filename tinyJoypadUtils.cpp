@@ -10,7 +10,9 @@
 #include <Arduino.h>
 #include "tinyJoypadUtils.h"
 
-#if !defined(__AVR_ATtiny85__)
+#if defined(__AVR_ATtiny85__)
+  #include <ssd1306xled.h>
+#else
   // include Adafruit library and immediately create an object
   #include <Adafruit_SSD1306.h>
   Adafruit_SSD1306 display( 128, 64, &Wire, -1 );
@@ -44,7 +46,7 @@ void InitTinyJoypad()
   pinMode( UP_DOWN_BUTTON, INPUT );
   pinMode( FIRE_BUTTON, INPUT );
   // configure SOUND_PIN as output (Pin D12 on Arduino UNO R3 and Pin D10 on Arduino Mega 2560 )
-  SOUND_PORT_DDR |= ( 1 << SOUND_PIN );
+  pinMode( SOUND_PIN, OUTPUT );
 
   // prepare serial port for debugging output
   Serial.begin( 115200 );
@@ -94,10 +96,10 @@ void waitUntilButtonsReleased()
 
 /*-------------------------------------------------------*/
 // wait until all buttons are released and wait a little delay
-void waitUntilButtonsReleased( const uint8_t delay )
+void waitUntilButtonsReleased( const uint8_t delayTime )
 {
   waitUntilButtonsReleased();
-  _delay_ms( delay );
+  _delay_ms( delayTime );
 }
 
 /*-------------------------------------------------------*/
@@ -160,10 +162,17 @@ void Sound( const uint8_t freq, const uint8_t dur )
 {
   for ( uint8_t t = 0; t < dur; t++ )
   {
-    if ( freq!=0 ){ SOUND_PORT = SOUND_PORT | ( 1 << SOUND_PIN); }
+#if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
+    if ( freq != 0 ){ SOUND_PORT = SOUND_PORT | ( 1 << SOUND_PIN); }
     _variableDelay_us( 255 - freq );
     SOUND_PORT = SOUND_PORT & ~( 1 << SOUND_PIN );
     _variableDelay_us( 255 - freq );
+#else
+    if ( freq != 0 ){ digitalWrite( SOUND_PIN, 1 ); }
+    _variableDelay_us( 255 - freq );
+    digitalWrite( SOUND_PIN, 0 );
+    _variableDelay_us( 255 - freq );
+#endif
   }
 }
 
@@ -323,7 +332,7 @@ void serialPrintln( const __FlashStringHelper *text )
 }
 
 /*-------------------------------------------------------*/
-void serialPrint( const uint16_t number )
+void serialPrint( const unsigned int number )
 {
 #ifdef USE_SERIAL_PRINT
   Serial.print( number );
@@ -331,7 +340,7 @@ void serialPrint( const uint16_t number )
 }
 
 /*-------------------------------------------------------*/
-void serialPrintln( const uint16_t number )
+void serialPrintln( const unsigned int number )
 {
 #ifdef USE_SERIAL_PRINT
   Serial.println( number );
@@ -339,7 +348,7 @@ void serialPrintln( const uint16_t number )
 }
 
 /*-------------------------------------------------------*/
-void serialPrint( const int16_t number )
+void serialPrint( const int number )
 {
 #ifdef USE_SERIAL_PRINT
   Serial.print( number );
@@ -347,7 +356,7 @@ void serialPrint( const int16_t number )
 }
 
 /*-------------------------------------------------------*/
-void serialPrintln( const int16_t number )
+void serialPrintln( const int number )
 {
 #ifdef USE_SERIAL_PRINT
   Serial.println( number );
