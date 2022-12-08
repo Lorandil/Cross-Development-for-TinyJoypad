@@ -63,11 +63,11 @@ If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoyp
 | Pin 7            | SCL (I2C)     | SCL           | blue   |
 | Pin 8 (rightmost)| VCC           | **5V**        | red    |
 
+<br>
 
 ## Wiring for Arduino Zero
 Because the Arduino Zero runs on the same 3.3V as the TinyJoypad, you can directly connect the TinyJoypad's module port **J1** (or the DIL8 socket if you have a homemade TinyJoypad) to the Arduino Zero.
-
-**Please don't connect the 5V to the TinyJoypad, this might damage your Arduino board!**
+<br>**Please don't connect the 5V to the TinyJoypad, this might damage your Arduino Zero board!**
 
 ### !!! REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
 
@@ -83,6 +83,7 @@ Because the Arduino Zero runs on the same 3.3V as the TinyJoypad, you can direct
 | Pin 7            | SCL (I2C)     | SCL           | blue   |
 | Pin 8 (rightmost)| VCC           | **3.3V**      | red    |
 
+<br>
 
 ## Wiring for Other Micro Controllers and non 5V Tolerant Displays
 My first intuition was to simply use a level shifter. That works great for the display, the beeper and the fire button, but sadly *NOT for the direction buttons because these are analog inputs*.
