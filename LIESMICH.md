@@ -2,10 +2,15 @@
 ![<English Version>](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/README.md)
 
 Dieses Repository enthält ein kleines Framework zur Entwicklung von Spielen für das TinyJoypad unter Verwendung eines anschlussfreudigeren und leistungsfähigeren Mikrocontrollers 
-(wie z.B. dem Arduino UNO/Leonardo/Mega 2560 oder auch vielen anderen).
+(wie z.B. dem Arduino UNO/Leonardo/Mega 2560/Zero oder auch vielen anderen).
 
 
 ![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-MakerUnoJoypad-reduced.jpg)
+
+## Haftungsausschluss
+Obwohl ich große Sorgfalt bei der Entwicklung dieser Anleitung und dieses Framework habe walten lassen, kann ich keine Garantien geben.
+Die Verwendung dieser Anleitung und dieses Framework geschieht auf eigene Gefahr.
+Ich hafte für keinerlei Art von Schäden, die aus der Verwendung dieser Anleitung oder dieses Frameworks entstehen.
  
 ## Was ist TinyJoypad?
 TinyJoypad ist ein großartiges Projekt des kanadischen Entwicklers Daniel C, welches eine standardisierte ATtiny85-Spieleplatform definiert.
@@ -29,13 +34,12 @@ Und es funktioniert: Die Adafruit-Bibliothek erlaubt einen direkten Zugriff auf 
 Anstatt die berechneten Pixel direkt über I2C an das Display zu senden (wie beim ATtiny85 notwendig), werden die Pixel in den Bildspeicher der Bibliothek übertragen 
 und nach dem "Bildaufbau" in einem Transfer an das Display gesendet. Dieses Display müsste theoretisch nicht einmal per I2C angebunden sein, sondern könnte auch an SPI hängen.
 
-Sogar die Soundausgabe ist möglich. Auf einem Arduino UNO/Leonardo/Mega 2560 funktioniert das sogar ohne Code-Änderungen. Bei anderen Mikrocontrollern muss ggf. ein anderes
-Portbit gewählt werden).
+Sogar die Soundausgabe ist möglich!
 
 
 ## Vorteile bei der Verwendung eines leistungsstärkeren Mikrocontrollers
 * Serielles Debugging (mit 'Serial.print()') ist möglich
-* Auf neueren Mikrocontrollers und der Arduino IDE 2.0 sollte sogar Live-Debugging mit Breakpoints möglich sein
+* Auf neueren Mikrocontroller wie dem Arduino Zero und mit der Arduino IDE 2.0 ist sogar Live-Debugging mit Breakpoints möglich!
 * Schnellere Entwicklungszyklen: Das umständliche Umstecken von Kabeln oder sogar ICs entfällt vollständig
 * Mehr Speicher (Flash und RAM) um ein Projekt überhaupt zum Laufen zu bringen. Komplexe Optimierungen können so erst am Ende erfolgen
 * Weitere coole Möglichkeiten wie die Ausgabe eines Screenshots über den seriellen Port (als Hexdump)
@@ -47,7 +51,7 @@ Das bedeutet, dass wir alle Funktionalitäten des TinyJoypads (Display, Lautspre
 Ich musste nur die Belegung des Ports herausfinden und voilà!
  
 ## Verdrahtung für Arduino UNO/Leonardo/Mega 2560 mit einem 5V-toleranten Display
-Wenn Euer TinyJoypad-Display 5V-tolerant ist, kann der Modulport des TinyJoypads direkt mit dem Arduino verbunden werden:
+Wenn Euer TinyJoypad-Display 5V-tolerant ist, kann der Modulport **J1** des TinyJoypads direkt mit dem Arduino verbunden werden:
 
 ### BITTE VOR DEM ANSCHLUSS DIE BATTERIE AUS DEM TINYJOYPAD ENTFERNEN !!!
 
@@ -56,13 +60,34 @@ Wenn Euer TinyJoypad-Display 5V-tolerant ist, kann der Modulport des TinyJoypads
 | ---------------- |:-------------:|:-------------:|:-------: |
 | Pin 1 (links)    | links/rechts  | A0            | orange  |
 | Pin 2            | hoch/runter   | A3            | gelb    |
-| Pin 3            | Lautsprecher  | `D12`         | braun   |
+| Pin 3            | Lautsprecher  | D12           | braun   |
 | Pin 4            | GND           | GND           | schwarz |
 | Pin 5            | SDA (I2C)     | SDA           | grün    |
 | Pin 6            | Feuer         | A1            | lila    |
 | Pin 7            | SCL (I2C)     | SCL           | blau    |
 | Pin 8 (rechts)   | VCC           | VCC           | rot     | 
 
+<br>
+
+## Wiring for Arduino Zero
+Da der Arduino Zero auf denselben 3.3V wie das TinyJoypad läuft, kann der Modulport **J1** des TinyJoypads direkt mit dem Arduino Zero verbunden werden:
+<br>**Bitte nicht versehentlich die 5V verbinden, da sonst der Arduino Zero beschädigt werden kann!**
+
+### !!! REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
+
+ 
+| TinyJoypad J1 / ATtiny85 Pin | Funktion | Arduino Zero | Farbe |
+| ---------------- |:-------------:|:-------------:|:-------:|
+| Pin 1 (links)    | links/rechts  | A0            | orange  |
+| Pin 2            | hoch/runter   | A3            | gelb    |
+| Pin 3            | Lautsprecher  | D12           | braun   |
+| Pin 4            | GND           | GND           | schwarz |
+| Pin 5            | SDA (I2C)     | SDA           | grün    |
+| Pin 6            | Feuer         | A1            | lila    |
+| Pin 7            | SCL (I2C)     | SCL           | blau    |
+| Pin 8 (rechts)   | VCC           | **3.3V**      | rot     |
+
+<br>
 
 ## Verdrahtung für andere Mikrocontroller und nicht 5V-tolerante Displays
 Mein erster Gedanke war einen Level-Shifter zu verwenden. Das funktioniert hervorragend für Display, Lautsprecher und Feuerknopf,
@@ -153,6 +178,9 @@ Wenn Euer Mikrocontroller aus einer vergleichbaren Leistungsklasse wie dem  ATME
 
 Wenn Euer Mikrocontroller viel schneller ist, kann der Geschwindigkeitsunterschied so groß werden, dass Euer Projekt (insbesondere die Steuerung) sich anders verhält.
 Diesem Effekt könntet Ihr mit `#ifdef` und `_delay_ms()` entgegenwirken, aber vermutlich ist es einfacher bei einem der genannten AVR-Chips zu bleiben.
+<br>
+Der Cortex M0+ des Arduino Zero ist bedeutend schneller als die AVR-Chips der anderen Arduinos, für meine Anwendung war der Geschwindigkeitsunterschied noch akzeptabel.
+Man sollte nur regelmäßig auf einem echten ATtiny testen, um Enttäuschungen zu vermeiden :)
 
 ## Wie war das mit Screenshots?
 Um einen Screenshot zu erhalten müssen die folgenden zwei Dinge in `"tinyJoypadUtils.h"` angepasst werden:
@@ -169,7 +197,7 @@ Um einen Screenshot zu erhalten müssen die folgenden zwei Dinge in `"tinyJoypad
 #define _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ ( isFirePressed() )
 ```
      
-Das ist alles. Jedesmal, wenn die Auslösebedingung während `TinyFlip_DisplayBuffer()` erfüllt ist, wird ein Screenshot auf dem ersten seriellen Port ausgegeben.
+Das ist alles. Jedesmal, wenn die Auslösebedingung während `DisplayBuffer()` erfüllt ist, wird ein Screenshot auf dem ersten seriellen Port ausgegeben.
 Vor dem eigentlichen Screenshot werden Anweisungen ausgegeben, wie der Hexdump mit freien Tools wieder in ein Bild umgewandelt werden kann:
      
 ```
