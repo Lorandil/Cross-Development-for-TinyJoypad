@@ -1,9 +1,16 @@
 # Cross Development Framework for TinyJoypad
 ![<Deutsche Version>](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/LIESMICH.md)
 
-This repository contains a small framework for developing games for the TinyJoypad using a more connective and resourceful micro controller like Arduino UNO, Leonardo, or Mega 2560 (and many other micro controllers).
+This repository contains a small framework for developing games for the **TinyJoypad** using a more connective and resourceful micro controller like **Arduino UNO**, **Leonardo**, **Mega 2560** or even the **Arduino Zero** (and many other micro controllers).
 
 ![TinyJoypad and LeonardoJoypad](https://github.com/Lorandil/Cross-Development-for-TinyJoypad/blob/main/pic/TinyJoypad-and-MakerUnoJoypad-reduced.jpg)
+
+
+# Disclaimer
+Although I took great care creating this framework and this tutorial, the software framework and the tutorial come without any warranties.
+You use them at your own risk.
+I may not be held responsible for any kind of damages that might occur.
+
  
 ## What is TinyJoypad?
 TinyJoypad is a great project by the Canadian developer Daniel C which defines a standardized ATtiny85 gaming platform.
@@ -22,12 +29,12 @@ I thought that maybe I could get the `<ssd1306xled>` library to work on an Ardui
 After some reflection I decided to try using the `<Adafruit_SSD1306>` library, which is available for many micro controllers (including several Arduinos).
 And it worked - the Adafruit library supports direct access to the video buffer. Instead of writing a rendered byte directly to the display (as it is done on the ATtiny), the rendered data is stored in the video buffer and displayed when the buffer is complete.
 
-Even sound output is possible (at least on Arduino UNO, Leonardo and Mega 2560, for other micro controllers a different port might be required).
+Even sound output is possible!
 
 
-## Advantages of using a more resourceful micro controller
+## Advantages of Using a More Resourceful Micro Controller
 * Serial debugging (by 'Serial.print()') is possible
-* On newer micro controllers and with Arduino IDE 2.0 even live debugging using breakpoints should be possible
+* On newer micro controllers like the Arduino Zero and with Arduino IDE 2.0 even live debugging using breakpoints is possible!
 * Faster turn-around-cycles, because no cables need to be unplugged/plugged and no fiddling with modules or even chips
 is necessary
 * More memory to get things working - before optimizing for flash and RAM size (reducing readability)
@@ -35,26 +42,46 @@ is necessary
 
 
 ## How Does It Work?
-Without an installed ATTiny85 (and without the battery!) the TinyJoypad is a passive device which offers all signals on the ATtiny DIL8 socket or even handier on the module connector J1.
+Without an installed ATtiny85 (and without the battery!) the TinyJoypad is a passive device which offers all signals on the ATtiny DIL8 socket or even handier on the module connector J1.
 That means, that we can use the display, the buzzer, the joystick and the fire buttons from the outside!
 I just had to figure out the correct wiring and voilà!
  
 ## Wiring for Arduino UNO, Leonardo and Mega 2560 with 5V Tolerant OLED Display
-If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port J1 (or the DIL8 socket if you have a homemade TinyJoypad) to the Arduino.
+If your TinyJoypad display is 5V tolerant, you can directly connect the TinyJoypad's module port **J1** (or the DIL8 socket if you have a homemade TinyJoypad) to the Arduino.
 
-### PLEASE REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
+### !!! REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
 
  
 | TinyJoypad J1 / ATtiny85 Pin | Function | UNO R3 / MEGA2560 / Leonardo | Color |
 | ---------------- |:-------------:|:-------------:|:------:|
 | Pin 1 (leftmost) | left/right    | A0            | orange |
 | Pin 2            | up/down       | A3            | yellow |
-| Pin 3            | buzzer        | `D12`         | brown  |
-| Pin 4            | GND           | GND           | black  |
+| Pin 3            | buzzer        | D12           | brown  |
+| Pin 4            | GND           | **GND**       | black  |
 | Pin 5            | SDA (I2C)     | SDA           | green  |
 | Pin 6            | fire          | A1            | purple |
 | Pin 7            | SCL (I2C)     | SCL           | blue   |
-| Pin 8 (rightmost)| VCC           | VCC           | red    |
+| Pin 8 (rightmost)| VCC           | **5V**        | red    |
+
+
+## Wiring for Arduino Zero
+Because the Arduino Zero runs on the same 3.3V as the TinyJoypad, you can directly connect the TinyJoypad's module port **J1** (or the DIL8 socket if you have a homemade TinyJoypad) to the Arduino Zero.
+
+**Please don't connect the 5V to the TinyJoypad, this might damage your Arduino board!**
+
+### !!! REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
+
+ 
+| TinyJoypad J1 / ATtiny85 Pin | Function | Arduino Zero | Color |
+| ---------------- |:-------------:|:-------------:|:------:|
+| Pin 1 (leftmost) | left/right    | A0            | orange |
+| Pin 2            | up/down       | A3            | yellow |
+| Pin 3            | buzzer        | D12           | brown  |
+| Pin 4            | GND           | **GND**       | black  |
+| Pin 5            | SDA (I2C)     | SDA           | green  |
+| Pin 6            | fire          | A1            | purple |
+| Pin 7            | SCL (I2C)     | SCL           | blue   |
+| Pin 8 (rightmost)| VCC           | **3.3V**      | red    |
 
 
 ## Wiring for Other Micro Controllers and non 5V Tolerant Displays
@@ -135,14 +162,15 @@ void RenderImage()
 
 
 ## What are the Remaining Differences?
-If the micro controllers are of comparable types like ATMEGA328 (Arduino Uno) or MEGA2560 (Arduino Mega 2560) or AVR32U4 (Arduino Leonardo), the only differences you might notice will be:
+If the micro controllers are of comparable types like ATMEGA328 (Arduino UNO) or MEGA2560 (Arduino Mega 2560) or AVR32U4 (Arduino Leonardo), the only differences you might notice will be:
 
-* The drawing of the image: Because the TinyJoypad has not enough RAM to render the output image in memory, the image is rendered while it is displayed. Depending on the speed of the calculations, this can be visible. The Adafruit library uses a RAM buffer for storing the rendered image. After rendering is complete, the image will be transfered in one piece, looking snappier.
+* The drawing of the image: Because the TinyJoypad has not enough RAM to render the output image in memory, the image is rendered while it is displayed. Depending on the speed of the calculations, this can be visible. The Adafruit library uses a RAM buffer for storing the rendered image. After rendering is complete, the image will be transferred in one piece, looking snappier.
 
 * The brightness of the OLED and the loudness of the beeper might be higher when using a 5V micro controller (due to the increased voltage).
 
 If your controller is much faster, you might see increased speed to the point, that your project (especially the controls) will begin to behave differently.
 You might counter that effect with `#ifdef` and `_delay_ms()`, but it's probably easier to stay with the above mentioned AVR chips.
+The Cortex M0+ of the Arduino Zero is considerably faster than the AVR chips on the other Arduinos, but still worked ok for me. You should just test regularly on the real ATtiny to avoid frustration :)
 
 
 ## You Said Something About Screenshots?
@@ -160,7 +188,7 @@ To get a screenshot you only have to do two things in `"tinyJoypadUtils.h"`:
 #define _SERIAL_SCREENSHOT_TRIGGER_CONDITION_ ( isFirePressed() )
 ```
      
-That's all. Everytime your trigger condition is met during `TinyFlip_DisplayBuffer()`, the screenshot will be printed to the first serial port. There will even some instructions how to convert the hexdump back to a proper image using free tools:
+That's all. Every time your trigger condition is met during `DisplayBuffer()`, the screenshot will be printed to the first serial port. There will even some instructions how to convert the hexdump back to a proper image using free tools:
      
 ```
 This is a TinyJoypad screenshot. Output is one hex byte per pixel. To get the actual image perform the following steps:
