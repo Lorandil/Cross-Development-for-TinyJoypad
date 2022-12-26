@@ -69,11 +69,11 @@ Wenn Euer TinyJoypad-Display 5V-tolerant ist, kann der Modulport **J1** des Tiny
 
 <br>
 
-## Wiring for Arduino Zero
+## Verdrahtung für den Arduino Zero
 Da der Arduino Zero auf denselben 3.3V wie das TinyJoypad läuft, kann der Modulport **J1** des TinyJoypads direkt mit dem Arduino Zero verbunden werden:
 <br>**Bitte nicht versehentlich die 5V verbinden, da sonst der Arduino Zero beschädigt werden kann!**
 
-### !!! REMOVE THE BATTERY FROM THE TINYJOYPAD BEFORE CONNECTING !!!
+### BITTE VOR DEM ANSCHLUSS DIE BATTERIE AUS DEM TINYJOYPAD ENTFERNEN !!!
 
  
 | TinyJoypad J1 / ATtiny85 Pin | Funktion | Arduino Zero | Farbe |
