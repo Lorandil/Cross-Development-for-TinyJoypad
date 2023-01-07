@@ -171,7 +171,8 @@ If the micro controllers are of comparable types like ATMEGA328 (Arduino UNO) or
 
 If your controller is much faster, you might see increased speed to the point, that your project (especially the controls) will begin to behave differently.
 You might counter that effect with `#ifdef` and `_delay_ms()`, but it's probably easier to stay with the above mentioned AVR chips.
-The Cortex M0+ of the Arduino Zero is considerably faster than the AVR chips on the other Arduinos, but still worked ok for me. You should just test regularly on the real ATtiny to avoid frustration :)
+The Cortex M0+ of the Arduino Zero is considerably faster than the AVR chips on the other Arduinos. For this reason when using the Arduino Zero a delay of 100ms will be applied after each full screen transmission. 
+To avoid frustration it is recommended to regularly test on a real ATtiny :)
 
 
 ## You Said Something About Screenshots?

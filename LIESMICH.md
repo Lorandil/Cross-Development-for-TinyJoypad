@@ -179,8 +179,8 @@ Wenn Euer Mikrocontroller aus einer vergleichbaren Leistungsklasse wie dem  ATME
 Wenn Euer Mikrocontroller viel schneller ist, kann der Geschwindigkeitsunterschied so groß werden, dass Euer Projekt (insbesondere die Steuerung) sich anders verhält.
 Diesem Effekt könntet Ihr mit `#ifdef` und `_delay_ms()` entgegenwirken, aber vermutlich ist es einfacher bei einem der genannten AVR-Chips zu bleiben.
 <br>
-Der Cortex M0+ des Arduino Zero ist bedeutend schneller als die AVR-Chips der anderen Arduinos, für meine Anwendung war der Geschwindigkeitsunterschied noch akzeptabel.
-Man sollte nur regelmäßig auf einem echten ATtiny testen, um Enttäuschungen zu vermeiden :)
+Der Cortex M0+ des Arduino Zero ist bedeutend schneller als die AVR-Chips der anderen Arduinos, deshalb werden beim Zero nach jedem Bildaufbau 100ms Wartezeit eingelegt.
+Es empfiehlt sich regelmäßig auf einem echten ATtiny testen, um Enttäuschungen zu vermeiden :)
 
 ## Wie war das mit Screenshots?
 Um einen Screenshot zu erhalten müssen die folgenden zwei Dinge in `"tinyJoypadUtils.h"` angepasst werden:
