@@ -48,29 +48,6 @@ void setup()
 }
 
 /*--------------------------------------------------------*/
-void loop()
-{
-  bool userAction = false;
-
-  // check buttons
-  if ( isLeftPressed() && ( posX >= 8 ) ) { posX -= 8; userAction = true; }
-  if ( isRightPressed() && ( posX < IMAGE_COLS - SCREEN_COLS - 8 ) ) { posX += 8; userAction = true; }
-  if ( isUpPressed() && ( posY > 0 ) ) { posY -= 1; userAction = true; }
-  if ( isDownPressed() && ( posY < IMAGE_ROWS - SCREEN_ROWS - 1 ) ) { posY += 1; userAction = true; }
-  if ( isFirePressed() ) { posX = ( IMAGE_COLS - SCREEN_COLS ) / 2; posY = 8; userAction = true; }
-
-  // user action?
-  if ( userAction )
-  {
-    // play a sound
-    blip();
-  }
-
-  // render the image
-  RenderImage();  
-}
-
-/*--------------------------------------------------------*/
 void RenderImage()
 {
   // there are 8 rows with a height of 8 pixels
@@ -100,4 +77,27 @@ void blip()
 {
   Sound( 60, 20 );
   Sound( 150, 20 );
+}
+
+/*--------------------------------------------------------*/
+void loop()
+{
+  bool userAction = false;
+
+  // check buttons
+  if ( isLeftPressed() && ( posX >= 8 ) ) { posX -= 8; userAction = true; }
+  if ( isRightPressed() && ( posX < IMAGE_COLS - SCREEN_COLS - 8 ) ) { posX += 8; userAction = true; }
+  if ( isUpPressed() && ( posY > 0 ) ) { posY -= 1; userAction = true; }
+  if ( isDownPressed() && ( posY < IMAGE_ROWS - SCREEN_ROWS - 1 ) ) { posY += 1; userAction = true; }
+  if ( isFirePressed() ) { posX = ( IMAGE_COLS - SCREEN_COLS ) / 2; posY = 8; userAction = true; }
+
+  // user action?
+  if ( userAction )
+  {
+    // play a sound
+    blip();
+  }
+
+  // render the image
+  RenderImage();  
 }

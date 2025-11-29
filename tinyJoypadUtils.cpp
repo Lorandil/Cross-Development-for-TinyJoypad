@@ -8,7 +8,7 @@
 //
 
 #include <Arduino.h>
-#include "tinyJoypadUtils.h"
+#include "TinyJoypadUtils.h"
 
 #if defined(__AVR_ATtiny85__)
   #include <ssd1306xled.h>
@@ -16,7 +16,11 @@
   // include Adafruit library and immediately create an object
   #include <Adafruit_SSD1306.h>
   Adafruit_SSD1306 display( 128, 64, &Wire, -1 );
-  uint8_t *adafruitBuffer;
+  uint8_t *_adafruitBuffer;
+  uint8_t _column{0};
+  uint8_t _row{0};
+  // flag if vertical addressing mode is enabled
+  bool _verticalAddressingModeEnabled{false};
 
   // these functions are only required if a screenshot should be printed as a hexdump to the serial port
   #ifdef _ENABLE_SERIAL_SCREENSHOT_
@@ -26,8 +30,8 @@
 #endif
 
 // buffered analog joystick inputs
-uint16_t analogJoystickX;
-uint16_t analogJoystickY;
+uint16_t _analogJoystickX;
+uint16_t _analogJoystickY;
 
 
 /*-------------------------------------------------------*/
@@ -40,7 +44,7 @@ void InitTinyJoypad()
   SOUND_PORT_DDR &= ~( ( 1 << PB5) | ( 1 << PB3 ) | ( 1 << PB1 ) );
   // configure A2 (aka SOUND_PIN) as output
   SOUND_PORT_DDR |= ( 1 << SOUND_PIN );
-#else
+#elif !defined( USE_KEYBOARD_INPUT )
   // use 'pinMode()' for simplicity's sake... any other micro controller has enough flash :)
   pinMode( LEFT_RIGHT_BUTTON, INPUT );
   pinMode( UP_DOWN_BUTTON, INPUT );
@@ -53,38 +57,134 @@ void InitTinyJoypad()
 #endif
 }
 
+#ifdef USE_KEYBOARD_INPUT
+bool leftKeyPressed{ false };
+bool rightKeyPressed{ false };
+bool upKeyPressed{ false };
+bool downKeyPressed{ false };
+bool actionKeyPressed{ false };
+
+/*-------------------------------------------------------*/
+void handleKeys()
+{
+  if (_kbhit())
+  {
+    auto key = _getch();
+    switch( key )
+    {
+      case 'a':
+      case 'A':
+        leftKeyPressed = true;
+        break;
+      case 'd':
+      case 'D':
+        rightKeyPressed = true;
+        break;
+      case 'w':
+      case 'W':
+        upKeyPressed = true;
+        break;
+      case 's':
+      case 'S':
+        downKeyPressed = true;
+        break;
+      case ' ':
+        actionKeyPressed = true;
+        break;
+      default:
+        break;
+      // cursor keys
+      case 224:
+        key = _getch();
+        switch (key)
+        {
+        case 75:
+          leftKeyPressed = true;
+          break;
+        case 77:
+          rightKeyPressed = true;
+          break;
+        case 72:
+          upKeyPressed = true;
+          break;
+        case 80:
+          downKeyPressed = true;
+          break;
+        default:
+          break;
+        }
+    }
+  }
+}
+#endif
+
 /*-------------------------------------------------------*/
 bool isLeftPressed()
 {
+#ifdef USE_KEYBOARD_INPUT
+  handleKeys();
+  auto key = leftKeyPressed;
+  leftKeyPressed = false;
+  return( key );
+#else
   uint16_t inputX = analogRead( LEFT_RIGHT_BUTTON );
-  return( ( inputX >= 750 ) && ( inputX < 950 ) );
+  return( ( inputX >= ANALOG_UPPER_LIMIT_MIN ) && ( inputX < ANALOG_UPPER_LIMIT_MAX ) );
+#endif
 }
 
 /*-------------------------------------------------------*/
 bool isRightPressed()
 {
+#ifdef USE_KEYBOARD_INPUT
+  handleKeys();
+  auto key = rightKeyPressed;
+  rightKeyPressed = false;
+  return( key );
+#else
   uint16_t inputX = analogRead( LEFT_RIGHT_BUTTON );
-  return( ( inputX > 500 ) && ( inputX < 750 ) );
+  return( ( inputX > ANALOG_LOWER_LIMIT_MIN ) && ( inputX < ANALOG_LOWER_LIMIT_MAX ) );
+#endif
 }
 
 /*-------------------------------------------------------*/
 bool isUpPressed()
 {
+#ifdef USE_KEYBOARD_INPUT
+  handleKeys();
+  auto key = upKeyPressed;
+  upKeyPressed = false;
+  return(key);
+#else
   uint16_t inputY = analogRead( UP_DOWN_BUTTON );
-  return( ( inputY > 500 ) && ( inputY < 750 ) );
+  return( ( inputY > ANALOG_LOWER_LIMIT_MIN ) && ( inputY < ANALOG_LOWER_LIMIT_MAX ) );
+#endif
 }
 
 /*-------------------------------------------------------*/
 bool isDownPressed()
 {
+#ifdef USE_KEYBOARD_INPUT
+  handleKeys();
+  auto key = downKeyPressed;
+  downKeyPressed = false;
+  return(key);
+#else
   uint16_t inputY = analogRead( UP_DOWN_BUTTON );
-  return( ( inputY >= 750 ) && ( inputY < 950 ) );
+  return( ( inputY >= ANALOG_UPPER_LIMIT_MIN ) && ( inputY < ANALOG_UPPER_LIMIT_MAX ) );
+#endif
 }
 
 /*-------------------------------------------------------*/
 bool isFirePressed()
 {
+#ifdef USE_KEYBOARD_INPUT
+  handleKeys();
+  auto key = actionKeyPressed;
+  actionKeyPressed = false;
+  return( key );
+#else
   return( digitalRead( FIRE_BUTTON ) == 0 );
+#endif
 }
 
 /*-------------------------------------------------------*/
@@ -106,48 +206,52 @@ void waitUntilButtonsReleased( const uint8_t delayTime )
 // read analog joystick inputs into internal variables
 void readAnalogJoystick()
 {
-  analogJoystickX = analogRead( LEFT_RIGHT_BUTTON );
-  analogJoystickY = analogRead( UP_DOWN_BUTTON );
+  _analogJoystickX = analogRead( LEFT_RIGHT_BUTTON );
+  _analogJoystickY = analogRead( UP_DOWN_BUTTON );
 }
 
 /*-------------------------------------------------------*/
 bool wasLeftPressed()
 {
-  return( ( analogJoystickX >= 750 ) && ( analogJoystickX < 950 ) );
+  return( ( _analogJoystickX >= ANALOG_UPPER_LIMIT_MIN ) && ( _analogJoystickX < ANALOG_UPPER_LIMIT_MAX ) );
 }
 
 /*-------------------------------------------------------*/
 bool wasRightPressed()
 {
-  return( ( analogJoystickX > 500 ) && ( analogJoystickX < 750 ) );
+  return( ( _analogJoystickX > ANALOG_LOWER_LIMIT_MIN ) && ( _analogJoystickX < ANALOG_LOWER_LIMIT_MAX ) );
 }
 
 /*-------------------------------------------------------*/
 bool wasUpPressed()
 {
-  return( ( analogJoystickY > 500 ) && ( analogJoystickY < 750 ) );
+  return( ( _analogJoystickY > ANALOG_LOWER_LIMIT_MIN ) && ( _analogJoystickY < ANALOG_LOWER_LIMIT_MAX ) );
 }
 
 /*-------------------------------------------------------*/
 bool wasDownPressed()
 {
-  return( ( analogJoystickY >= 750 ) && ( analogJoystickY < 950 ) );
+  return( ( _analogJoystickY >= ANALOG_UPPER_LIMIT_MIN ) && ( _analogJoystickY < ANALOG_UPPER_LIMIT_MAX ) );
 }
 
 /*-------------------------------------------------------*/
 uint16_t getAnalogValueX()
 {
-  return( analogJoystickX );
+  return( _analogJoystickX );
 }
 
 /*-------------------------------------------------------*/
 uint16_t getAnalogValueY()
 {
-  return( analogJoystickY );
+  return( _analogJoystickY );
 }
 
 /*-------------------------------------------------------*/
+#if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
 void __attribute__ ((noinline)) _variableDelay_us( uint8_t delayValue )
+#else
+void _variableDelay_us(uint8_t delayValue)
+#endif
 {
   while ( delayValue-- != 0 )
   {
@@ -160,27 +264,35 @@ void __attribute__ ((noinline)) _variableDelay_us( uint8_t delayValue )
 // Code optimization by sbr
 void Sound( const uint8_t freq, const uint8_t dur )
 {
-  for ( uint8_t t = 0; t < dur; t++ )
-  {
-#if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
-    if ( freq != 0 ){ SOUND_PORT = SOUND_PORT | ( 1 << SOUND_PIN); }
-    _variableDelay_us( 255 - freq );
-    SOUND_PORT = SOUND_PORT & ~( 1 << SOUND_PIN );
-    _variableDelay_us( 255 - freq );
-#else
-    if ( freq != 0 ){ digitalWrite( SOUND_PIN, 1 ); }
-    _variableDelay_us( 255 - freq );
-    digitalWrite( SOUND_PIN, 0 );
-    _variableDelay_us( 255 - freq );
+#if !defined( NO_SOUND )
+    for ( uint8_t t = 0; t < dur; t++ )
+    {
+  #if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
+      if ( freq != 0 ){ SOUND_PORT = SOUND_PORT | ( 1 << SOUND_PIN); }
+      _variableDelay_us( 255 - freq );
+      SOUND_PORT = SOUND_PORT & ~( 1 << SOUND_PIN );
+      _variableDelay_us( 255 - freq );
+  #else
+      if ( freq != 0 ){ digitalWrite( SOUND_PIN, 1 ); }
+      _variableDelay_us( 255 - freq );
+      digitalWrite( SOUND_PIN, 0 );
+      _variableDelay_us( 255 - freq );
+  #endif
+    }
 #endif
-  }
 }
 
 /*-------------------------------------------------------*/
 void InitDisplay()
 {
 #if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
-  SSD1306.ssd1306_init();
+  #if defined( _SSD1306XLED_TINY_INIT_SUPPORTED_ )
+    // library supports shorter init method
+    SSD1306.ssd1306_tiny_init();
+  #else
+    // use standard init method
+    SSD1306.ssd1306_init();
+  #endif
 #else
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   // Address 0x3D for 128x64
@@ -189,6 +301,47 @@ void InitDisplay()
     // extended the error message
     Serial.println(F("SSD1306 allocation failed - 1024 bytes for frame buffer required!")); for(;;);
   }
+
+  // reset display coordinates
+  _column = 0;
+  _row = 0;
+
+  // get raw image buffer
+   _adafruitBuffer = display.getBuffer();
+#endif
+}
+
+/*-------------------------------------------------------*/
+void EnableVerticalAddressingMode()
+{
+#if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
+  SSD1306.ssd1306_send_command_start();
+  SSD1306.ssd1306_send_byte( 0x20 ); SSD1306.ssd1306_send_byte( 0x01 );
+  SSD1306.ssd1306_send_byte( 0x21 ); SSD1306.ssd1306_send_byte( 0x00 ); SSD1306.ssd1306_send_byte( 0x7f );
+  SSD1306.ssd1306_send_byte( 0x22 ); SSD1306.ssd1306_send_byte( 0x00 ); SSD1306.ssd1306_send_byte( 0x07 );
+  SSD1306.ssd1306_send_command_stop();
+#else
+  _verticalAddressingModeEnabled = true;
+  // reset display coordinates
+  _column = 0;
+  _row = 0;
+#endif
+}
+
+/*-------------------------------------------------------*/
+void DisableVerticalAddressingMode()
+{
+#if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
+  SSD1306.ssd1306_send_command_start();
+  SSD1306.ssd1306_send_byte( 0x20 ); SSD1306.ssd1306_send_byte( 0x00 );
+  SSD1306.ssd1306_send_byte( 0x21 ); SSD1306.ssd1306_send_byte( 0x00 ); SSD1306.ssd1306_send_byte( 0x7f );
+  SSD1306.ssd1306_send_byte( 0x22 ); SSD1306.ssd1306_send_byte( 0x00 ); SSD1306.ssd1306_send_byte( 0x07 );
+  SSD1306.ssd1306_send_command_stop();
+#else
+  _verticalAddressingModeEnabled = false;
+  // reset display coordinates
+  _column = 0;
+  _row = 0;
 #endif
 }
 
@@ -214,9 +367,52 @@ void PrepareDisplayRow( uint8_t y )
 #else  /* codepath for any Adafruit_SSD1306 supported MCU */
 
   // address the display buffer
-  adafruitBuffer = display.getBuffer() + ( y * 128 );
+  _row = y;
 #endif
 }
+
+/*-------------------------------------------------------*/
+void StartSendPixels()
+{
+#if defined(__AVR_ATtiny85__)  /* codepath for ATtiny85 */
+  SSD1306.ssd1306_send_data_start();
+#endif
+}
+
+#if !defined(__AVR_ATtiny85__)  /* codepath for ATtiny85 */
+/*-------------------------------------------------------*/
+// writes the pixles and handles the addressing of columns and rows
+void writePixelsToAdafruitBuffer( uint8_t pixels )
+{
+  _adafruitBuffer[_column + _row * 128] = pixels;
+  if ( _verticalAddressingModeEnabled )
+  {
+    _row++;
+    if ( _row > 7 )
+    {
+      _row = 0;
+      _column++;
+      if ( _column > 127 )
+      {
+        _column = 0;
+      }
+    }
+  }
+  else
+  {
+    _column++;
+    if ( _column > 127 )
+    {
+      _column = 0;
+      _row++;
+      if ( _row > 7 )
+      {
+        _row = 0;
+      }
+    }
+  }
+}
+#endif
 
 /*-------------------------------------------------------*/
 void SendPixels( uint8_t pixels )
@@ -224,10 +420,17 @@ void SendPixels( uint8_t pixels )
 #if defined(__AVR_ATtiny85__) /* codepath for ATtiny85 */
   // send a byte directly to the SSD1306
   SSD1306.ssd1306_send_byte( pixels );
-
 #else  /* codepath for any Adafruit_SSD1306 supported MCU */
-  // write pixels directly to the buffer
-  *adafruitBuffer++ = pixels;
+  // write pixels directly into the buffer
+  writePixelsToAdafruitBuffer( pixels );
+#endif
+}
+
+/*-------------------------------------------------------*/
+void StopSendPixels()
+{
+#if defined(__AVR_ATtiny85__)  /* codepath for ATtiny85 */
+  SSD1306.ssd1306_send_data_stop();
 #endif
 }
 
@@ -337,21 +540,23 @@ void serialPrintln( const __FlashStringHelper *text )
 #endif
 }
 
-/*-------------------------------------------------------*/
+/*-------------------------------------------------------
 void serialPrint( const unsigned int number )
 {
 #ifdef USE_SERIAL_PRINT
   Serial.print( number );
 #endif
 }
+*/
 
-/*-------------------------------------------------------*/
+/*-------------------------------------------------------
 void serialPrintln( const unsigned int number )
 {
 #ifdef USE_SERIAL_PRINT
   Serial.println( number );
 #endif
 }
+*/
 
 /*-------------------------------------------------------*/
 void serialPrint( const int number )

@@ -4,3 +4,8 @@ workspace.code-workspace
 presentation/CrossDevelopmentForTinyJoypad.pptx
 LIESMICH.md.backup
 README.md.backup
+/.vs
+/Cross-Development-for-TinyJoypad/x64/Debug
+/x64/Debug
+/Cross-Development-for-TinyJoypad.slnx
+/Cross-Development-for-TinyJoypad

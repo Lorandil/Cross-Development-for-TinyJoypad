@@ -41,8 +41,14 @@
   // disable extended features
   #undef USE_EXTENDED_CHECKS
   #undef USE_SERIAL_PRINT
+
+  // Analog limits for joystick control (controller/voltage dependent)
+  const uint16_t ANALOG_LOWER_LIMIT_MIN = 500;
+  const uint16_t ANALOG_LOWER_LIMIT_MAX = 750;
+  const uint16_t ANALOG_UPPER_LIMIT_MIN = 750;
+  const uint16_t ANALOG_UPPER_LIMIT_MAX = 950;
 #else
-  #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega328P__) || defined(_VARIANT_ARDUINO_ZERO_)
+  #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega328P__) || defined(_VARIANT_ARDUINO_ZERO_) || defined(ARDUINO_UNOWIFIR4) || defined(ARDUINO_UNOR4_MINIMA)
     // Arduino Mega 2560 (and compatible)
     #define LEFT_RIGHT_BUTTON A0
     #define UP_DOWN_BUTTON    A3
@@ -57,6 +63,30 @@
     #define SOUND_PORT_DDR  DDRB
     #define SOUND_PORT     PORTB
   #endif
+
+  // Analog limits for joystick control (controller/voltage dependent)
+  #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega328P__)
+    const uint16_t ANALOG_LOWER_LIMIT_MIN = 500;
+    const uint16_t ANALOG_LOWER_LIMIT_MAX = 750;
+    const uint16_t ANALOG_UPPER_LIMIT_MIN = 750;
+    const uint16_t ANALOG_UPPER_LIMIT_MAX = 950;
+  #elif defined(_VARIANT_ARDUINO_ZERO_)
+    const uint16_t ANALOG_LOWER_LIMIT_MIN = 500;
+    const uint16_t ANALOG_LOWER_LIMIT_MAX = 750;
+    const uint16_t ANALOG_UPPER_LIMIT_MIN = 750;
+    const uint16_t ANALOG_UPPER_LIMIT_MAX = 950;
+  #elif defined(ARDUINO_UNOWIFIR4) || defined(ARDUINO_UNOR4_MINIMA)
+    const uint16_t ANALOG_LOWER_LIMIT_MIN = 300;
+    const uint16_t ANALOG_LOWER_LIMIT_MAX = 540;
+    const uint16_t ANALOG_UPPER_LIMIT_MIN = 540;
+    const uint16_t ANALOG_UPPER_LIMIT_MAX = 650;
+  #else
+    const uint16_t ANALOG_LOWER_LIMIT_MIN = 500;
+    const uint16_t ANALOG_LOWER_LIMIT_MAX = 750;
+    const uint16_t ANALOG_UPPER_LIMIT_MIN = 750;
+    const uint16_t ANALOG_UPPER_LIMIT_MAX = 950;
+  #endif
+
   // use extensive checks (not memory restricted by ATtiny85...)
   #define USE_EXTENDED_CHECKS
   #define USE_SERIAL_PRINT
@@ -65,6 +95,10 @@
 
 // funciton for initializing the TinyJoypad (ATtiny85) and other microcontrollers
 void InitTinyJoypad();
+
+// switch between vertical and horizontal addressing modes
+void EnableVerticalAddressingMode();
+void DisableVerticalAddressingMode();
 
 // function for direct joystick readings
 bool isLeftPressed();
@@ -86,13 +120,17 @@ bool wasDownPressed();
 uint16_t getAnalogValueX();
 uint16_t getAnalogValueY();
 
-void __attribute__ ((noinline)) _variableDelay_us( uint8_t delayValue );
+#if defined( __AVR_ATtiny85__)
+  void __attribute__ ((noinline)) _variableDelay_us( uint8_t delayValue );
+#endif
 void Sound( const uint8_t freq, const uint8_t dur );
 
 // functions to simplify display handling between ATtiny85 and Ardafruit_SSD1306
 void InitDisplay();
 void PrepareDisplayRow( uint8_t y );
+void StartSendPixels();
 void SendPixels( uint8_t pixels );
+void StopSendPixels();
 void FinishDisplayRow();
 void DisplayBuffer();
 
@@ -114,7 +152,7 @@ void serialPrint( const char *text );
 void serialPrintln( const char *text );
 void serialPrint( const __FlashStringHelper *text );
 void serialPrintln( const __FlashStringHelper *text );
-void serialPrint( const unsigned int number );
-void serialPrintln( const unsigned int number );
+//void serialPrint( const unsigned int number );
+//void serialPrintln( const unsigned int number );
 void serialPrint( const int number );
 void serialPrintln( const int number );
